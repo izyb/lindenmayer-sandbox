@@ -66,6 +66,7 @@ class Turtle {
   }
 
   normalize(lines) {
+    if (lines.length === 0) return lines;
     const getMin = line => [
       Math.min(line.start.x, line.end.x),
       Math.min(line.start.y, line.end.y)];
