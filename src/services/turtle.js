@@ -11,6 +11,10 @@ class Turtle {
     this.padding = padding || DEFAULT_PADDING;
   }
 
+  static toRadians(angle) {
+    return angle * Math.PI / 180;
+  }
+
   /**
    * Given initial conditions, update functions, and iteration, calculate and
    * return collection of lines representing turtle path.
@@ -55,10 +59,10 @@ class Turtle {
           curr.y += Math.round(stepLength * Math.sin(theta));
           break;
         case '+':
-          theta += alpha;
+          theta += Turtle.toRadians(alpha);
           break;
         case '-':
-          theta -= alpha;
+          theta -= Turtle.toRadians(alpha);
           break;
         case '[':
           stack.push({ x: curr.x, y: curr.y, theta });

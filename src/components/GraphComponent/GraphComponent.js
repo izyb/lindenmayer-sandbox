@@ -56,7 +56,7 @@ class GraphComponent extends Component {
         },
       ],
       stepLength: 50,
-      alpha: Math.PI / 2,
+      alpha: 90,
       iteration: 0,
       scale: 1,
     };
