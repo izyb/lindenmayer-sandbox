@@ -189,7 +189,7 @@ class GraphComponent extends Component {
         replaceFn.splice(j, 1);
       }
     });
-    this.setState({ replaceFn }, this.updateLine);
+    this.setState({ replaceFn }, this.updateLines);
   }
 
   /**
