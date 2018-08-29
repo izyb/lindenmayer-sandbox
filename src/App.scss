@@ -1,7 +1,7 @@
 .App {
     margin: 0;
     padding: 0;
-    font-family: 'Kosugi', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #fafafa;
     position: fixed;
     top: 0;
@@ -21,12 +21,11 @@
     width: 100%;
     display: flex;
     box-shadow: 
-        0 1px rgb(0,0,0,0.1),
-        0 1.5px rgb(0,0,0,0.17),
-        0 2px rgb(0,0,0,0.24);
+        0 1px rgba(0,0,0,0.1),
+        0 1.5px rgba(0,0,0,0.17),
+        0 2px rgba(0,0,0,0.24);
     z-index: 1;
-}
-
-.banner h1 {
-    margin: auto 8px;
+    h1 {
+        margin: auto 8px;
+    }
 }

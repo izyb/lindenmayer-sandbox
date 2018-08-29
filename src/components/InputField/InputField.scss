@@ -1,0 +1,39 @@
+.input-field-wrapper {
+    position: relative;
+    flex-grow: 1;
+    height: 24px;
+    margin: auto 0;
+    display: flex;
+    input {
+        flex-grow: 1;
+        font-family: 'Roboto', sans-serif;
+        margin: auto 0;
+        background-color: transparent;
+        border: none;
+        color: #d0d0d0;
+    }
+    input[type=text] {
+        padding: 4px;
+    }
+    input[type=number] {
+        appearance: textfield;
+    }
+}
+
+.input-field-wrapper::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #fafafa;
+    left: 0;
+    right: 0;
+    transition: border-top 0.1s;
+}
+
+.input-field-wrapper:focus-within::before {
+    border-top: 2px solid rgb(175, 14, 22);
+}
+
+.no-underline::before {
+    content: none;
+}
