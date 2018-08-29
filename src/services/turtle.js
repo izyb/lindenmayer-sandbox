@@ -23,6 +23,7 @@ class Turtle {
     let moves = str.split('');
     const lines = [];
     const curr = { x: 0, y: 0 };
+    const stack = [];
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
         if (!replaceFn.some((rF) => {
@@ -57,8 +58,26 @@ class Turtle {
         case '-':
           theta -= alpha;
           break;
+        case '[':
+          stack.push({ x: curr.x, y: curr.y, theta });
+          break;
+        case ']':
+          const s = stack.pop();
+          curr.x = s.x;
+          curr.y = s.y;
+          ({ theta } = s);
+          break;
         default:
-          // throw new Error(`invalid character: ${moves[j]}`);
+          const char = replaceFn.find(rF => rF.char === moves[j]);
+          if (char && char.drawing) {
+            lines.push({
+              start: { x: curr.x, y: curr.y },
+              end: {
+                x: curr.x += Math.round(stepLength * Math.cos(theta)),
+                y: curr.y += Math.round(stepLength * Math.sin(theta)),
+              },
+            });
+          }
           break;
       }
     }

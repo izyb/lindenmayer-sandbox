@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './GraphComponent.css';
 import InputField from '../InputField/InputField';
 import Turtle from '../../services/turtle';
+import config from '../../config/config.json';
 
-const RESERVED_CHARS = ['+', '-'];
-const MAX_ITERATIONS = 12;
+const { RESERVED_CHARS, MAX_ITERATIONS } = config;
 
 class GraphComponent extends Component {
   constructor(props) {
@@ -24,24 +24,28 @@ class GraphComponent extends Component {
           str: 'F',
           mandatory: true,
           active: true,
+          drawing: true,
         },
         {
           char: 'f',
           str: 'f',
           mandatory: false,
           active: false,
+          drawing: false,
         },
         {
           char: 'X',
           str: 'X+YF+',
           mandatory: false,
           active: true,
+          drawing: false,
         },
         {
           char: 'Y',
           str: '-FX-Y',
           mandatory: false,
           active: true,
+          drawing: false,
         },
       ],
       stepLength: 50,
@@ -54,12 +58,11 @@ class GraphComponent extends Component {
     this.updateLines = this.updateLines.bind(this);
     this.updateReplaceFns = this.updateReplaceFns.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleCheckbox = this.handleCheckbox.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleReplaceFn = this.handleReplaceFn.bind(this);
-    this.handleReplaceFnActive = this.handleReplaceFnActive.bind(this);
+    this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -152,6 +155,7 @@ class GraphComponent extends Component {
           str: char,
           mandatory: false,
           active: false,
+          drawing: false,
         });
       }
     });
@@ -169,18 +173,14 @@ class GraphComponent extends Component {
 
   handleReplaceFn(e, i) {
     const { replaceFn } = this.state;
-    replaceFn[i].str = e.target.value;
+    replaceFn[i][e.target.name] = e.target.value;
     this.setState({ replaceFn }, this.updateReplaceFns);
   }
 
-  handleReplaceFnActive(i) {
+  handleReplaceFnToggle(e, i) {
     const { replaceFn } = this.state;
-    replaceFn[i].active = (!replaceFn[i].active || replaceFn[i].mandatory);
+    replaceFn[i][e.target.name] = !replaceFn[i][e.target.name] || replaceFn[i].mandatory;
     this.setState({ replaceFn }, this.updateReplaceFns);
-  }
-
-  handleCheckbox(e) {
-    this.setState({ [e.target.name]: e.target.checked }, this.updateLines);
   }
 
   handleDragStart(e) {
@@ -310,15 +310,6 @@ class GraphComponent extends Component {
           </div>
         </div>
         <div className="graph-panel right">
-          {/* <div className="graph-instructions panel-content">
-            <ul>
-              <li>Moves:</li>
-              <li>F: forward</li>
-              <li>f: forward no line</li>
-              <li>+: rotate cw by degree &alpha;</li>
-              <li>-: rotate ccw by degree &alpha;</li>
-            </ul>
-          </div> */}
           <div className="graph-core-fields panel-content">
             <h5>Initial Path</h5>
             <InputField
@@ -340,23 +331,32 @@ class GraphComponent extends Component {
                         value={rF.str}
                         onChange={e => this.handleReplaceFn(e, i)}
                         type="text"
+                        name="str"
                       />
                       {!rF.mandatory
                         && (
                           <button
                             type="button"
-                            onClick={() => this.handleReplaceFnActive(i)}
+                            onClick={e => this.handleReplaceFnToggle(e, i)}
+                            name="active"
                           >
                             Deactivate
                           </button>
                         )
                       }
+                      <InputField
+                        type="checkbox"
+                        onChange={e => this.handleReplaceFnToggle(e, i)}
+                        value={!!rF.drawing}
+                        name="drawing"
+                      />
                     </React.Fragment>
                   )
                     : (
                       <button
                         type="button"
-                        onClick={() => this.handleReplaceFnActive(i)}
+                        onClick={e => this.handleReplaceFnToggle(e, i)}
+                        name="active"
                       >
                         Activate
                       </button>)}

@@ -1,0 +1,11 @@
+{
+    "RESERVED_CHARS": [
+        "F",
+        "f",
+        "+",
+        "-",
+        "[",
+        "]"
+    ],
+    "MAX_ITERATIONS": 12
+}
