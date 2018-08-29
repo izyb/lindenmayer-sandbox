@@ -4,8 +4,15 @@ import InputField from '../InputField/InputField';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
 
-const { RESERVED_CHARS, MAX_ITERATIONS } = config;
+const {
+  RESERVED_CHARS,
+  MAX_ITERATIONS,
+  SCALE_FACTOR,
+} = config;
 
+/**
+ * Main view for the sandbox. Houses the canvas as well as the input fields.
+ */
 class GraphComponent extends Component {
   constructor(props) {
     super(props);
@@ -283,8 +290,8 @@ class GraphComponent extends Component {
     const { scale } = this.state;
     this.setState({
       scale: e.deltaY < 0
-        ? scale * 1.1
-        : scale / 1.1,
+        ? scale * SCALE_FACTOR
+        : scale / SCALE_FACTOR,
     }, this.animate);
   }
 
