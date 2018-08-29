@@ -16,6 +16,7 @@
         ],
         "no-confusing-arrow": "off",
         "react/forbid-prop-types": "off",
-        "react/prefer-stateless-function": "off"
+        "react/prefer-stateless-function": "off",
+        "no-case-declarations": "off"
     }
 }
