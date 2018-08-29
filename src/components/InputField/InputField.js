@@ -11,17 +11,19 @@ function InputField(props) {
     onChange,
   } = props;
 
-  const className = `input-field-wrapper ${
-    type === 'range' || type === 'checkbox' ? 'no-underline' : ''}`;
+  const inputElementProps = {
+    name,
+    value: type === 'checkbox' ? null : value,
+    checked: type === 'checkbox' ? value : null,
+    type,
+    onChange,
+  };
 
   return (
-    <div className={className}>
+    <div className={`input-field-wrapper ${type}-input`}>
       <input
-        name={name}
-        value={value}
-        type={type}
+        {...inputElementProps}
         {...inputProps}
-        onChange={onChange}
       />
     </div>
   );

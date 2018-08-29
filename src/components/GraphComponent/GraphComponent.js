@@ -344,10 +344,10 @@ class GraphComponent extends Component {
                           </button>
                         )
                       }
-                      <input
+                      <InputField
                         type="checkbox"
                         onChange={e => this.handleReplaceFnToggle(e, i)}
-                        checked={!!rF.drawing}
+                        value={!!rF.drawing}
                         name="drawing"
                       />
                     </React.Fragment>
