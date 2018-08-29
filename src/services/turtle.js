@@ -25,6 +25,7 @@ class Turtle {
     let moves = str.split('');
     const lines = [];
     const curr = { x: 0, y: 0 };
+    const stack = [];
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
         if (!replaceFn.some((rF) => {
@@ -58,6 +59,15 @@ class Turtle {
           break;
         case '-':
           theta -= alpha;
+          break;
+        case '[':
+          stack.push({ x: curr.x, y: curr.y, theta });
+          break;
+        case ']':
+          const s = stack.pop();
+          curr.x = s.x;
+          curr.y = s.y;
+          ({ theta } = s);
           break;
         default:
           const char = replaceFn.find(rF => rF.char === moves[j]);
