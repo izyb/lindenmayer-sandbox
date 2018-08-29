@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './GraphComponent.css';
 import InputField from '../InputField/InputField';
 import Turtle from '../../services/turtle';
+import config from '../../config/config.json';
 
-const RESERVED_CHARS = ['+', '-'];
-const MAX_ITERATIONS = 12;
+const { RESERVED_CHARS, MAX_ITERATIONS } = config;
 
 class GraphComponent extends Component {
   constructor(props) {
