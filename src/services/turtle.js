@@ -1,5 +1,9 @@
 const DEFAULT_PADDING = 16;
 
+/**
+ * Class for parsing turtle strings into geographic coordinates of the turtle's
+ * path.
+ */
 class Turtle {
   constructor(width, height, padding) {
     this.width = width;
@@ -8,15 +12,13 @@ class Turtle {
   }
 
   /**
-   * Given turtle string, parses and returns a collection of line objects.
-   * @param {string} str - input turtle string
-   * @param {string} replaceFn -
-   * [
-   *  {char: 'F', str: 'F+F+F', mandatory: true, active: true}
-   * ]
-   * @param {string} iteration - input turtle string
-   * @param {number} alpha - input turtle string
-   * @param {number} stepLength - input turtle string
+   * Given initial conditions, update functions, and iteration, calculate and
+   * return collection of lines representing turtle path.
+   * @param {string} str - Initial turtle string.
+   * @param {Array} replaceFn - Defined replacement functions.
+   * @param {string} iteration - L-system iteration.
+   * @param {number} alpha - Turtle turn angle.
+   * @param {number} stepLength - Turtle step length.
    */
   parse(str, replaceFn, iteration, alpha, stepLength) {
     let theta = 0; // start at angle 0
@@ -84,6 +86,11 @@ class Turtle {
     return this.normalize(lines);
   }
 
+  /**
+   * Given a collection of lines, normalize to fit dimensions set in
+   * constructor.
+   * @param {Array} lines - collection of lines.
+   */
   normalize(lines) {
     if (lines.length === 0) return lines;
     const getMin = line => [

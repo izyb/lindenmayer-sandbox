@@ -7,5 +7,6 @@
         "[",
         "]"
     ],
-    "MAX_ITERATIONS": 12
+    "MAX_ITERATIONS": 12,
+    "SCALE_FACTOR": 1.1
 }

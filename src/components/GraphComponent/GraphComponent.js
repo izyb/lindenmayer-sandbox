@@ -4,8 +4,15 @@ import InputField from '../InputField/InputField';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
 
-const { RESERVED_CHARS, MAX_ITERATIONS } = config;
+const {
+  RESERVED_CHARS,
+  MAX_ITERATIONS,
+  SCALE_FACTOR,
+} = config;
 
+/**
+ * Main view for the sandbox. Houses the canvas as well as the input fields.
+ */
 class GraphComponent extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +74,10 @@ class GraphComponent extends Component {
     this.handleScroll = this.handleScroll.bind(this);
   }
 
+  /**
+   * Initializes wheel and window resize event listeners, canvas dimensions,
+   * and turtle object.
+   */
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('wheel', this.handleScroll);
@@ -83,11 +94,17 @@ class GraphComponent extends Component {
     }, this.updateReplaceFns);
   }
 
+  /**
+   * Removes all window event listeners to prevent memory leaks.
+   */
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('wheel', this.handleScroll);
   }
 
+  /**
+   * Clears canvas and draws lines onto it.
+   */
   animate() {
     const {
       lines,
@@ -115,6 +132,9 @@ class GraphComponent extends Component {
     });
   }
 
+  /**
+   * Parses current state and updates line objects.
+   */
   updateLines() {
     const {
       turtle,
@@ -135,6 +155,10 @@ class GraphComponent extends Component {
     }, this.animate);
   }
 
+  /**
+   * Adds replacement string entries if a new character has been typed. Removes
+   * replacement strings whose chars no longer have any occurrences.
+   */
   updateReplaceFns() {
     const { initPath, replaceFn } = this.state;
     const chars = replaceFn.map(rF => rF.char);
@@ -159,30 +183,50 @@ class GraphComponent extends Component {
         });
       }
     });
-    chars.forEach((char, i) => {
+    chars.forEach((char) => {
       if (!initChars.includes(char) && !RESERVED_CHARS.includes(char)) {
-        replaceFn.splice(i, 1);
+        const j = replaceFn.findIndex(rF => rF.char === char);
+        replaceFn.splice(j, 1);
       }
     });
-    this.setState({ replaceFn }, this.updateLines);
+    this.setState({ replaceFn }, this.updateLine);
   }
 
+  /**
+   * Updates state based on user input.
+   * @param {Event} e - User input event.
+   */
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value }, this.updateReplaceFns);
   }
 
+  /**
+   * Updates specified replacement function object property based on user
+   * input.
+   * @param {Event} e - User input event.
+   * @param {number} i - Replacement string list index.
+   */
   handleReplaceFn(e, i) {
     const { replaceFn } = this.state;
     replaceFn[i][e.target.name] = e.target.value;
     this.setState({ replaceFn }, this.updateReplaceFns);
   }
 
+  /**
+   * Toggles a boolean property of specified replacement function.
+   * @param {Event} e - User input event.
+   * @param {number} i - Replacement string list index
+   */
   handleReplaceFnToggle(e, i) {
     const { replaceFn } = this.state;
     replaceFn[i][e.target.name] = !replaceFn[i][e.target.name] || replaceFn[i].mandatory;
     this.setState({ replaceFn }, this.updateReplaceFns);
   }
 
+  /**
+   * Storese initial drag location and adds event listener for mouse movement.
+   * @param {Event} e - User input event.
+   */
   handleDragStart(e) {
     const position = this.canvas.getBoundingClientRect();
     this.setState({
@@ -192,6 +236,10 @@ class GraphComponent extends Component {
     window.addEventListener('mousemove', this.handleDrag);
   }
 
+  /**
+   * Updates drag offset distance.
+   * @param {Event} e - User input event.
+   */
   handleDrag(e) {
     const { scale, startX, startY } = this.state;
     const position = this.canvas.getBoundingClientRect();
@@ -200,6 +248,10 @@ class GraphComponent extends Component {
     this.setState({ offsetX, offsetY }, this.animate);
   }
 
+  /**
+   * Copies current drag offset distance to fixed offset distance, then sets
+   * current drag offset distance to (0,0).
+   */
   handleDragEnd() {
     const {
       offsetX,
@@ -216,6 +268,10 @@ class GraphComponent extends Component {
     window.removeEventListener('mousemove', this.handleDrag);
   }
 
+  /**
+   * Updates canvas dimensions to match new window dimensions and initializes a
+   * new turtle.
+   */
   handleResize() {
     const { clientWidth, clientHeight } = this.wrapper;
     const turtle = new Turtle(clientWidth, clientHeight);
@@ -226,12 +282,16 @@ class GraphComponent extends Component {
     }, this.animate);
   }
 
+  /**
+   * Updates the scale factor on user wheel.
+   * @param {Event} e - User input event.
+   */
   handleScroll(e) {
     const { scale } = this.state;
     this.setState({
       scale: e.deltaY < 0
-        ? scale * 1.1
-        : scale / 1.1,
+        ? scale * SCALE_FACTOR
+        : scale / SCALE_FACTOR,
     }, this.animate);
   }
 
