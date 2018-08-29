@@ -12,7 +12,7 @@ function InputField(props) {
   } = props;
 
   const className = `input-field-wrapper ${
-    type === 'range' ? 'no-underline' : ''}`;
+    type === 'range' || type === 'checkbox' ? 'no-underline' : ''}`;
 
   return (
     <div className={className}>

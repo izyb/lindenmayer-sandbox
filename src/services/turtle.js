@@ -58,7 +58,16 @@ class Turtle {
           theta -= alpha;
           break;
         default:
-          // throw new Error(`invalid character: ${moves[j]}`);
+          const char = replaceFn.find(rF => rF.char === moves[j]);
+          if (char && char.drawing) {
+            lines.push({
+              start: { x: curr.x, y: curr.y },
+              end: {
+                x: curr.x += Math.round(stepLength * Math.cos(theta)),
+                y: curr.y += Math.round(stepLength * Math.sin(theta)),
+              },
+            });
+          }
           break;
       }
     }
