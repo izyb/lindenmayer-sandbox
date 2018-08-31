@@ -13,8 +13,8 @@ function InputField(props) {
 
   const inputElementProps = {
     name,
-    value: type === 'checkbox' ? null : value,
-    checked: type === 'checkbox' ? value : null,
+    value: type === 'checkbox' ? '' : value,
+    checked: type === 'checkbox' ? value : '',
     type,
     onChange,
   };
@@ -39,7 +39,7 @@ InputField.propTypes = {
 
 InputField.defaultProps = {
   name: null,
-  value: null,
+  value: '',
   type: 'text',
   inputProps: null,
   onChange: null,
