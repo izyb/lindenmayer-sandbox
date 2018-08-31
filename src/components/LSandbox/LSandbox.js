@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './GraphComponent.css';
+import './LSandbox.css';
 import InputField from '../InputField/InputField';
 import LCanvas from '../LCanvas/LCanvas';
 import Turtle from '../../services/turtle';
@@ -13,7 +13,7 @@ const {
 /**
  * Main view for the sandbox. Houses the canvas as well as the input fields.
  */
-class GraphComponent extends Component {
+class LSandbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -314,4 +314,4 @@ class GraphComponent extends Component {
   }
 }
 
-export default GraphComponent;
+export default LSandbox;

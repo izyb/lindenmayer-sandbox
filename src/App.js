@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import GraphComponent from './components/GraphComponent/GraphComponent';
+import LSandbox from './components/LSandbox/LSandbox';
 
 class App extends Component {
   render() {
@@ -9,7 +9,7 @@ class App extends Component {
         <div className="banner">
           <h1>Lindenmayer Sandbox</h1>
         </div>
-        <GraphComponent />
+        <LSandbox />
       </div>
     );
   }
