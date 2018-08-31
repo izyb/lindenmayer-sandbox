@@ -1,3 +1,5 @@
+import Line from '../models/line';
+
 const DEFAULT_PADDING = 16;
 
 /**
@@ -46,13 +48,12 @@ class Turtle {
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
         case 'F':
-          lines.push({
-            start: { x: curr.x, y: curr.y },
-            end: {
-              x: curr.x += Math.round(stepLength * Math.cos(theta)),
-              y: curr.y += Math.round(stepLength * Math.sin(theta)),
-            },
-          });
+          lines.push(new Line(
+            curr.x,
+            curr.y,
+            curr.x += Math.round(stepLength * Math.cos(theta)),
+            curr.y += Math.round(stepLength * Math.sin(theta)),
+          ));
           break;
         case 'f':
           curr.x += Math.round(stepLength * Math.cos(theta));
@@ -76,13 +77,12 @@ class Turtle {
         default:
           const char = replaceFn.find(rF => rF.char === moves[j]);
           if (char && char.drawing) {
-            lines.push({
-              start: { x: curr.x, y: curr.y },
-              end: {
-                x: curr.x += Math.round(stepLength * Math.cos(theta)),
-                y: curr.y += Math.round(stepLength * Math.sin(theta)),
-              },
-            });
+            lines.push(new Line(
+              curr.x,
+              curr.y,
+              curr.x += Math.round(stepLength * Math.cos(theta)),
+              curr.y += Math.round(stepLength * Math.sin(theta)),
+            ));
           }
           break;
       }
@@ -98,11 +98,11 @@ class Turtle {
   normalize(lines) {
     if (lines.length === 0) return lines;
     const getMin = line => [
-      Math.min(line.start.x, line.end.x),
-      Math.min(line.start.y, line.end.y)];
+      Math.min(...line.getX()),
+      Math.min(...line.getY())];
     const getMax = line => [
-      Math.max(line.start.x, line.end.x),
-      Math.max(line.start.y, line.end.y)];
+      Math.max(...line.getX()),
+      Math.max(...line.getY())];
     const max = getMax(lines[0]);
     const min = getMin(lines[0]);
     lines.forEach((line) => {
@@ -126,16 +126,12 @@ class Turtle {
       (max[1] - min[1]) / (this.height - 2 * this.padding),
     );
 
-    return lines.map(l => ({
-      start: {
-        x: (l.start.x - min[0]) / scale + this.padding,
-        y: (l.start.y - min[1]) / scale + this.padding,
-      },
-      end: {
-        x: (l.end.x - min[0]) / scale + this.padding,
-        y: (l.end.y - min[1]) / scale + this.padding,
-      },
-    }));
+    return lines.map(l => new Line(
+      (l.x1 - min[0]) / scale + this.padding,
+      (l.y1 - min[1]) / scale + this.padding,
+      (l.x2 - min[0]) / scale + this.padding,
+      (l.y2 - min[1]) / scale + this.padding,
+    ));
   }
 }
 
