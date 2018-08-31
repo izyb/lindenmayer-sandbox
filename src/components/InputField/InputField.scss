@@ -1,3 +1,4 @@
+@import '../../palettes';
 .input-field-wrapper {
     position: relative;
     flex-grow: 1;
@@ -23,7 +24,7 @@
         transition: border-top 0.1s;
     }
     &:focus-within::before {
-        border-top: 2px solid rgb(175, 14, 22);
+        border-top: 2px solid #{$theme-red};
     }
 }
 
