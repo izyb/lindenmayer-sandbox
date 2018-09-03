@@ -4,10 +4,13 @@ import InputField from '../InputField/InputField';
 import LCanvas from '../LCanvas/LCanvas';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
+import Drawer from '../Drawer/Drawer';
 
 const {
   RESERVED_CHARS,
   MAX_ITERATIONS,
+  STEP_LENGTH,
+  ALPHA,
 } = config;
 
 /**
