@@ -56,6 +56,7 @@ class LSandbox extends Component {
       stepLength: 50,
       alpha: 90,
       iteration: 0,
+      drawerOpen: false,
     };
 
     this.updateReplaceFns = this.updateReplaceFns.bind(this);
@@ -63,6 +64,7 @@ class LSandbox extends Component {
     this.handleReplaceFn = this.handleReplaceFn.bind(this);
     this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
   /**
@@ -185,6 +187,11 @@ class LSandbox extends Component {
     });
   }
 
+  toggleDrawer() {
+    const { drawerOpen } = this.state;
+    this.setState({ drawerOpen: !drawerOpen });
+  }
+
   render() {
     const {
       initPath,
@@ -195,10 +202,22 @@ class LSandbox extends Component {
       clientWidth,
       clientHeight,
       lines,
+      drawerOpen,
     } = this.state;
+
+    const drawer = (
+      <Drawer
+        open={drawerOpen}
+        anchor="right"
+        onClose={this.toggleDrawer}
+      >
+        <h1>hi</h1>
+      </Drawer>
+    );
 
     return (
       <div className="graph-wrapper">
+        {drawer}
         <div className="graph-panel left">
           <div
             ref={(node) => { this.wrapper = node; }}
@@ -310,6 +329,7 @@ class LSandbox extends Component {
                 </li>
               ))}
             </ul>
+            <button type="button" onClick={this.toggleDrawer}>Drawer </button>
           </div>
         </div>
       </div>
