@@ -53,8 +53,8 @@ class LSandbox extends Component {
           drawing: false,
         },
       ],
-      stepLength: 50,
-      alpha: 90,
+      stepLength: STEP_LENGTH,
+      alpha: ALPHA,
       iteration: 0,
       drawerOpen: false,
     };
