@@ -35,3 +35,27 @@
     border-left: 1px solid #{$border-color};
   }
 }
+
+@mixin slide-in($direction: left, $duration: 0.3s) {
+  @keyframes slide-in {
+    from {
+      overflow: hidden;
+      @if $direction==left {
+        transform: translateX(-100%);
+      }
+      @else if $direction==right {
+        transform: translateX(100%);
+      }
+      @else if $direction==top {
+        transform: translateY(-100%);
+      }
+      @else if $direction==bottom {
+        transform: translateY(-100%);
+      }
+    }
+    to {
+      transform: translate(0);
+    }
+  }
+  animation: slide-in #{$duration} ease-out;
+}
