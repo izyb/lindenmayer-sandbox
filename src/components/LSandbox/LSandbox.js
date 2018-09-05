@@ -8,6 +8,8 @@ import config from '../../config/config.json';
 const {
   RESERVED_CHARS,
   MAX_ITERATIONS,
+  STEP_LENGTH,
+  ALPHA,
 } = config;
 
 /**
@@ -50,9 +52,10 @@ class LSandbox extends Component {
           drawing: false,
         },
       ],
-      stepLength: 50,
-      alpha: 90,
+      stepLength: STEP_LENGTH,
+      alpha: ALPHA,
       iteration: 0,
+      drawerOpen: false,
     };
 
     this.updateReplaceFns = this.updateReplaceFns.bind(this);
@@ -60,6 +63,7 @@ class LSandbox extends Component {
     this.handleReplaceFn = this.handleReplaceFn.bind(this);
     this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
   /**
@@ -182,13 +186,17 @@ class LSandbox extends Component {
     });
   }
 
+  toggleDrawer() {
+    const { drawerOpen } = this.state;
+    this.setState({ drawerOpen: !drawerOpen });
+  }
+
   render() {
     const {
       initPath,
       replaceFn,
       iteration,
       alpha,
-      stepLength,
       clientWidth,
       clientHeight,
       lines,
@@ -220,42 +228,22 @@ class LSandbox extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="graph-param-toolbar">
-              <ul>
-                <li>
-                  <h5>&alpha;:</h5>
-                </li>
-                <li>
-                  <h5>Step Length:</h5>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <InputField
-                    value={alpha}
-                    name="alpha"
-                    type="number"
-                    inputProps={{
-                      step: 'any',
-                    }}
-                    onChange={this.handleChange}
-                  />
-                </li>
-                <li>
-                  <InputField
-                    value={stepLength}
-                    name="stepLength"
-                    type="number"
-                    onChange={this.handleChange}
-                  />
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
         <div className="graph-panel right">
-          <div className="graph-core-fields panel-content">
-            <h5>Initial Path</h5>
+          <div className="panel-content">
+            <h4>Angle</h4>
+            <InputField
+              value={alpha}
+              name="alpha"
+              onChange={this.handleChange}
+              type="number"
+              max={360}
+              min={0}
+            />
+          </div>
+          <div className="panel-content">
+            <h4>Initial Path</h4>
             <InputField
               value={initPath}
               name="initPath"
@@ -271,12 +259,6 @@ class LSandbox extends Component {
                   <h5>{`${rF.char}:`}</h5>
                   {rF.active ? (
                     <React.Fragment>
-                      <InputField
-                        value={rF.str}
-                        onChange={e => this.handleReplaceFn(e, i)}
-                        type="text"
-                        name="str"
-                      />
                       {!rF.mandatory
                         && (
                           <button
@@ -284,10 +266,17 @@ class LSandbox extends Component {
                             onClick={e => this.handleReplaceFnToggle(e, i)}
                             name="active"
                           >
-                            Deactivate
+                            <i className="material-icons">delete</i>
                           </button>
                         )
                       }
+                      <InputField
+                        value={rF.str}
+                        onChange={e => this.handleReplaceFn(e, i)}
+                        type="text"
+                        name="str"
+                      />
+
                       <InputField
                         type="checkbox"
                         onChange={e => this.handleReplaceFnToggle(e, i)}
@@ -302,7 +291,7 @@ class LSandbox extends Component {
                         onClick={e => this.handleReplaceFnToggle(e, i)}
                         name="active"
                       >
-                        Activate
+                        <i className="material-icons">add</i>
                       </button>)}
                 </li>
               ))}

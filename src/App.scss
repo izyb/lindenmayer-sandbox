@@ -1,9 +1,10 @@
 @import './palettes';
+@import './effects';
 .App {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    color: $theme-white;
+    color: $theme-text-primary;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -14,19 +15,19 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: $theme-background;
 }
 
 .banner {
     height: 56px;
-    background-color: $theme-red;
+    background-color: $theme-primary;
     width: 100%;
     display: flex;
-    box-shadow: 
-        0 1px rgba(0,0,0,0.1),
-        0 1.5px rgba(0,0,0,0.17),
-        0 2px rgba(0,0,0,0.24);
+    box-shadow: shadow(2);
+
     z-index: 1;
     h1 {
         margin: auto 8px;
+        white-space: nowrap;
     }
 }
