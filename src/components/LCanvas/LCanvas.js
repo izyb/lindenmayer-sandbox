@@ -65,6 +65,7 @@ class LCanvas extends Component {
       fOffsetX,
       fOffsetY,
       scale,
+      inverted,
     } = this.state;
     const {
       lines,
@@ -72,6 +73,11 @@ class LCanvas extends Component {
       height,
     } = this.props;
     context.clearRect(0, 0, width, height);
+    if (inverted) {
+      context.strokeStyle = '#ffffff';
+    } else {
+      context.strokeStyle = '#000000';
+    }
     lines.forEach((line) => {
       context.beginPath();
       context.moveTo(
@@ -184,6 +190,7 @@ class LCanvas extends Component {
   }
 
   render() {
+    const { inverted } = this.state;
     const {
       width,
       height,
@@ -205,9 +212,9 @@ class LCanvas extends Component {
       >
         <canvas
           ref={(node) => { this.canvas = node; }}
-          width={width - 8}
-          height={height - 8}
-          className="L-canvas"
+          width={width}
+          height={height}
+          className={`L-canvas ${inverted ? 'L-canvas-inverted' : ''}`}
         />
         <div className="L-canvas-toolbar">
           <button type="button" onClick={this.downloadState}>
@@ -215,6 +222,9 @@ class LCanvas extends Component {
           </button>
           <button type="button" onClick={this.resetFrame}>
             <i className="material-icons">restore</i>
+          </button>
+          <button type="button" onClick={() => this.setState({ inverted: !inverted }, this.animate)}>
+            <i className="material-icons">invert_colors</i>
           </button>
         </div>
       </div>
