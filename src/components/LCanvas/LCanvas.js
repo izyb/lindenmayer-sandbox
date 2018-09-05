@@ -24,6 +24,8 @@ class LCanvas extends Component {
     };
 
     this.animate = this.animate.bind(this);
+    this.downloadState = this.downloadState.bind(this);
+    this.resetFrame = this.resetFrame.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
@@ -84,6 +86,28 @@ class LCanvas extends Component {
     });
   }
 
+  downloadState() {
+    this.canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.download = 'canvas.png';
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  resetFrame() {
+    this.setState({
+      offsetX: 0,
+      offsetY: 0,
+      fOffsetX: 0,
+      fOffsetY: 0,
+      scale: 1,
+    }, this.animate);
+  }
+
   /**
    * Storese initial drag location and adds event listener for mouse movement.
    * @param {Event} e - User input event.
@@ -134,6 +158,7 @@ class LCanvas extends Component {
    */
   handleMouseEnter() {
     window.addEventListener('wheel', this.handleScroll);
+    window.removeEventListener('mouseup', this.handleDragEnd);
   }
 
   /**
@@ -141,6 +166,7 @@ class LCanvas extends Component {
    */
   handleMouseLeave() {
     window.removeEventListener('wheel', this.handleScroll);
+    window.addEventListener('mouseup', this.handleDragEnd);
   }
 
   /**
@@ -183,6 +209,14 @@ class LCanvas extends Component {
           height={height - 8}
           className="L-canvas"
         />
+        <div className="L-canvas-toolbar">
+          <button type="button" onClick={this.downloadState}>
+            <i className="material-icons">camera</i>
+          </button>
+          <button type="button" onClick={this.resetFrame}>
+            <i className="material-icons">restore</i>
+          </button>
+        </div>
       </div>
     );
   }

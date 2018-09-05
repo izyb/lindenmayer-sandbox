@@ -15,3 +15,25 @@
     box-sizing: border-box;
     box-shadow: shadow(2);
 }
+
+.L-canvas-toolbar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 16px;
+    button {
+        background: none;
+        i {
+            transition: color 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+            color: grey;
+        }
+        
+        border: none;
+        box-shadow: none;
+        &:hover {
+            i{
+                color: darken(grey, 20%);
+            }
+        }
+    }
+}
