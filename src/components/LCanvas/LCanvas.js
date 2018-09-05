@@ -24,6 +24,8 @@ class LCanvas extends Component {
     };
 
     this.animate = this.animate.bind(this);
+    this.downloadState = this.downloadState.bind(this);
+    this.resetFrame = this.resetFrame.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
@@ -63,6 +65,7 @@ class LCanvas extends Component {
       fOffsetX,
       fOffsetY,
       scale,
+      inverted,
     } = this.state;
     const {
       lines,
@@ -70,6 +73,11 @@ class LCanvas extends Component {
       height,
     } = this.props;
     context.clearRect(0, 0, width, height);
+    if (inverted) {
+      context.strokeStyle = '#ffffff';
+    } else {
+      context.strokeStyle = '#000000';
+    }
     lines.forEach((line) => {
       context.beginPath();
       context.moveTo(
@@ -82,6 +90,28 @@ class LCanvas extends Component {
       );
       context.stroke();
     });
+  }
+
+  downloadState() {
+    this.canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.download = 'canvas.png';
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  resetFrame() {
+    this.setState({
+      offsetX: 0,
+      offsetY: 0,
+      fOffsetX: 0,
+      fOffsetY: 0,
+      scale: 1,
+    }, this.animate);
   }
 
   /**
@@ -134,6 +164,7 @@ class LCanvas extends Component {
    */
   handleMouseEnter() {
     window.addEventListener('wheel', this.handleScroll);
+    window.removeEventListener('mouseup', this.handleDragEnd);
   }
 
   /**
@@ -141,6 +172,7 @@ class LCanvas extends Component {
    */
   handleMouseLeave() {
     window.removeEventListener('wheel', this.handleScroll);
+    window.addEventListener('mouseup', this.handleDragEnd);
   }
 
   /**
@@ -158,6 +190,7 @@ class LCanvas extends Component {
   }
 
   render() {
+    const { inverted } = this.state;
     const {
       width,
       height,
@@ -179,10 +212,21 @@ class LCanvas extends Component {
       >
         <canvas
           ref={(node) => { this.canvas = node; }}
-          width={width - 8}
-          height={height - 8}
-          className="L-canvas"
+          width={width}
+          height={height}
+          className={`L-canvas ${inverted ? 'L-canvas-inverted' : ''}`}
         />
+        <div className="L-canvas-toolbar">
+          <button type="button" onClick={this.downloadState}>
+            <i className="material-icons">camera</i>
+          </button>
+          <button type="button" onClick={this.resetFrame}>
+            <i className="material-icons">restore</i>
+          </button>
+          <button type="button" onClick={() => this.setState({ inverted: !inverted }, this.animate)}>
+            <i className="material-icons">invert_colors</i>
+          </button>
+        </div>
       </div>
     );
   }
