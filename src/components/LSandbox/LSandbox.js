@@ -4,7 +4,6 @@ import InputField from '../InputField/InputField';
 import LCanvas from '../LCanvas/LCanvas';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
-import LDrawer from '../LDrawer/LDrawer';
 
 const {
   RESERVED_CHARS,
@@ -198,27 +197,13 @@ class LSandbox extends Component {
       replaceFn,
       iteration,
       alpha,
-      stepLength,
       clientWidth,
       clientHeight,
       lines,
-      drawerOpen,
     } = this.state;
-
-    const drawer = (
-      <LDrawer
-        open={drawerOpen}
-        anchor="right"
-        onClose={this.toggleDrawer}
-        variant="persistent"
-      >
-        <h1>hi</h1>
-      </LDrawer>
-    );
 
     return (
       <div className="graph-wrapper">
-        {drawer}
         <div className="graph-panel left">
           <div
             ref={(node) => { this.wrapper = node; }}
@@ -243,42 +228,22 @@ class LSandbox extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="graph-param-toolbar">
-              <ul>
-                <li>
-                  <h5>&alpha;:</h5>
-                </li>
-                <li>
-                  <h5>Step Length:</h5>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <InputField
-                    value={alpha}
-                    name="alpha"
-                    type="number"
-                    inputProps={{
-                      step: 'any',
-                    }}
-                    onChange={this.handleChange}
-                  />
-                </li>
-                <li>
-                  <InputField
-                    value={stepLength}
-                    name="stepLength"
-                    type="number"
-                    onChange={this.handleChange}
-                  />
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
         <div className="graph-panel right">
-          <div className="graph-core-fields panel-content">
-            <h5>Initial Path</h5>
+          <div className="panel-content">
+            <h4>Angle</h4>
+            <InputField
+              value={alpha}
+              name="alpha"
+              onChange={this.handleChange}
+              type="number"
+              max={360}
+              min={0}
+            />
+          </div>
+          <div className="panel-content">
+            <h4>Initial Path</h4>
             <InputField
               value={initPath}
               name="initPath"
@@ -294,12 +259,6 @@ class LSandbox extends Component {
                   <h5>{`${rF.char}:`}</h5>
                   {rF.active ? (
                     <React.Fragment>
-                      <InputField
-                        value={rF.str}
-                        onChange={e => this.handleReplaceFn(e, i)}
-                        type="text"
-                        name="str"
-                      />
                       {!rF.mandatory
                         && (
                           <button
@@ -307,10 +266,17 @@ class LSandbox extends Component {
                             onClick={e => this.handleReplaceFnToggle(e, i)}
                             name="active"
                           >
-                            Deactivate
+                            <i className="material-icons">delete</i>
                           </button>
                         )
                       }
+                      <InputField
+                        value={rF.str}
+                        onChange={e => this.handleReplaceFn(e, i)}
+                        type="text"
+                        name="str"
+                      />
+
                       <InputField
                         type="checkbox"
                         onChange={e => this.handleReplaceFnToggle(e, i)}
@@ -325,12 +291,11 @@ class LSandbox extends Component {
                         onClick={e => this.handleReplaceFnToggle(e, i)}
                         name="active"
                       >
-                        Activate
+                        <i className="material-icons">add</i>
                       </button>)}
                 </li>
               ))}
             </ul>
-            <button type="button" onClick={this.toggleDrawer}>Drawer </button>
           </div>
         </div>
       </div>

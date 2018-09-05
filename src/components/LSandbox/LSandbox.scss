@@ -1,97 +1,124 @@
 @import '../../palettes';
-
+@import '../../effects';
 ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-    li {
-        display: flex;
-        margin: 4px 0;
-        h5 {
-            margin: auto 0;
-            margin-right: 8px;
-        }
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+  li {
+    display: flex;
+    margin: 4px 0;
+    height: 48px;
+    h5 {
+      margin: auto 0;
+      margin-right: 8px;
+      flex-basis: 2%;
+      white-space: nowrap;
     }
+  }
 }
 
 button {
-    font-family: 'Roboto', sans-serif;
-    border: none;
-    box-shadow: 2px 2px rgba(0,0,0,0.3);
-    margin: 4px;
-    box-sizing: border-box;
-    border-radius: 2px;
-    padding: 4px;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  box-shadow: 2px 2px rgba(212, 141, 141, 0.3);
+  margin: 4px;
+  border-radius: 4px;
+  padding: 8px 16px;
+  background-color: $theme-primary;
+  color: $theme-background;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  i{
+      animation: fade-in();
+  }
 }
 
 .graph-wrapper {
-    width: 100%;
-    flex: 1;
-    display: flex;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  @media (max-width: 1000px) {
+    overflow-x: hidden;
+    flex-direction: column;
+  }
 }
 
 .graph-panel {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .right {
-    flex-grow: 1;
+  flex-grow: 1;
+}
+
+.left {
+  max-width: 80vh;
+  @media (max-width: 1000px) {
+    max-width: unset;
+  }
+  flex-grow: 1;
 }
 
 .panel-content {
-    padding: 16px;
+  padding: 16px;
 }
 
 .fields {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .graph-canvas-wrapper {
-    width: 67vh;
-    height: 67vh;
+  max-width: 100%;
+  width: 100%;
+  height: 67vh;
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 24px;
 }
 
 .graph-slider {
-    display: flex;
-    padding-bottom: 16px;
-    input {
-        flex-grow: 1;
-    }
+  display: flex;
+  padding-bottom: 16px;
+  input {
+    flex-grow: 1;
+  }
 }
 
 .graph-param-toolbar {
-    padding-top: 0;
-    width: 100%;
-    flex-grow: 1;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-    h3 {
-        margin: auto;
-        grid-row-start: 1;
-        grid-row-end: 2;
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
+  padding-top: 0;
+  width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  h3 {
+    margin: auto;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
 }
 
 .graph-core-fields ul,
 .graph-param-toolbar {
-    ul {
-        grid-row-start: 2;
-        li {
-            margin: 0;
-            margin-bottom: 8px;
-            display: flex;
-            height: 24px;
-        }
+  ul {
+    grid-row-start: 2;
+    li {
+      margin: 0;
+      margin-bottom: 8px;
+      display: flex;
+      height: 24px;
     }
+  }
 }
 
 .graph-toolbar-input {
-    display: flex;
-    margin: auto;
-    width: 100%;
+  display: flex;
+  margin: auto;
+  width: 100%;
 }
