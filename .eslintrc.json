@@ -17,6 +17,9 @@
         "no-confusing-arrow": "off",
         "react/forbid-prop-types": "off",
         "react/prefer-stateless-function": "off",
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        "prefer-destructuring": "off",
+        "react/destructuring-assignment": "off",
+        "no-bitwise": "off"
     }
 }

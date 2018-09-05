@@ -1,0 +1,61 @@
+@function shadow($elevation: 1, $color: rgba(0, 0, 0, 0.1)) {
+  $val: 0px 0px $color;
+  @for $i from 1 through $elevation {
+    $val: #{$val},
+    #{$i}px #{$i}px #{$color};
+  }
+  @return $val;
+}
+
+@function fade-in($duration: 0.6s) {
+  @return fade-in #{$duration} ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@mixin border($side: top) {
+  $border-color: rgba(0, 0, 0, 0.27);
+  @if $side==top {
+    border-top: 1px solid #{$border-color};
+  }
+  @else if $side==right {
+    border-right: 1px solid #{$border-color};
+  }
+  @else if $side==bottom {
+    border-bottom: 1px solid #{$border-color};
+  }
+  @else if $side==left {
+    border-left: 1px solid #{$border-color};
+  }
+}
+
+@mixin slide-in($direction: left, $duration: 0.3s) {
+  @keyframes slide-in {
+    from {
+      overflow: hidden;
+      @if $direction==left {
+        transform: translateX(-100%);
+      }
+      @else if $direction==right {
+        transform: translateX(100%);
+      }
+      @else if $direction==top {
+        transform: translateY(-100%);
+      }
+      @else if $direction==bottom {
+        transform: translateY(-100%);
+      }
+    }
+    to {
+      transform: translate(0);
+    }
+  }
+  animation: slide-in #{$duration} ease-out;
+}

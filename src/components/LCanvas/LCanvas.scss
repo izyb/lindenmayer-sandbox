@@ -1,18 +1,46 @@
 @import '../../palettes';
+@import '../../effects';
 .L-canvas-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    padding: 4px;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  padding: 0;
+  position: relative;
 }
 
 .L-canvas {
-    background-color: #{$theme-white};
-    width: calc(100% - 8px);
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 
-        1px 1px rgba(0,0,0,0.1),
-        1.5px 1.5px rgba(0,0,0,0.17),
-        2px 2px rgba(0,0,0,0.24);
+  transition: background-color 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-color: #{$theme-white};
+  width: calc(100% - 8px);
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: shadow(2);
+}
+
+.L-canvas-inverted {
+  background-color: invert($theme-white);
+}
+
+.L-canvas-toolbar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  @include slide-in(right);
+  button {
+    background: none;
+    i {
+      transition: color 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+      color: grey;
+    }
+    border: none;
+    box-shadow: none;
+    &:hover {
+      i {
+        color: darken(grey, 20%);
+      }
+    }
+  }
 }
