@@ -46,8 +46,8 @@ class LCanvas extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { lines } = this.props;
-    if (prevProps.lines !== lines) {
+    const { lines, width, height } = this.props;
+    if (prevProps.lines !== lines || height !== prevProps.height || width !== prevProps.width) {
       this.animate();
     }
   }
@@ -148,6 +148,7 @@ class LCanvas extends Component {
    * @param {Event} e - User input event.
    */
   handleScroll(e) {
+    e.preventDefault();
     const { scale } = this.state;
     this.setState({
       scale: e.deltaY < 0

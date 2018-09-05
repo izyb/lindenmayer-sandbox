@@ -12,19 +12,19 @@
         margin: auto 0;
         background-color: transparent;
         border: none;
-        color: #d0d0d0;
+        color: $theme-text-secondary;
     }
     &::before {
         content: '';
         position: absolute;
         bottom: 0;
-        border-top: 1px solid #fafafa;
+        border-top: 1px solid #{$theme-text-secondary};
         left: 0;
         right: 0;
         transition: border-top 0.1s;
     }
     &:focus-within::before {
-        border-top: 2px solid #{$theme-red};
+        border-top: 2px solid #{$theme-primary};
     }
 }
 
