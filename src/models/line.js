@@ -42,4 +42,12 @@ export default class Line {
   getY() {
     return [this.y1, this.y2];
   }
+
+  isEq(line) {
+    if (!Line.isLine(line)) return false;
+    return (line.x1 === this.x1
+      && line.x2 === this.x2
+      && line.y1 === this.y1
+      && line.y2 === this.y2);
+  }
 }

@@ -48,12 +48,15 @@ class Turtle {
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
         case 'F':
-          lines.push(new Line(
+          const fLine = new Line(
             curr.x,
             curr.y,
             curr.x += Math.round(stepLength * Math.cos(theta)),
             curr.y += Math.round(stepLength * Math.sin(theta)),
-          ));
+          );
+          if (!lines.some(l => l.isEq(fLine))) {
+            lines.push(fLine);
+          }
           break;
         case 'f':
           curr.x += Math.round(stepLength * Math.cos(theta));
@@ -70,19 +73,25 @@ class Turtle {
           break;
         case ']':
           const s = stack.pop();
-          curr.x = s.x;
-          curr.y = s.y;
-          ({ theta } = s);
+          if (s) {
+            curr.x = s.x;
+            curr.y = s.y;
+            ({ theta } = s);
+          }
           break;
         default:
           const char = replaceFn.find(rF => rF.char === moves[j]);
+
           if (char && char.drawing) {
-            lines.push(new Line(
+            const drawLine = new Line(
               curr.x,
               curr.y,
               curr.x += Math.round(stepLength * Math.cos(theta)),
               curr.y += Math.round(stepLength * Math.sin(theta)),
-            ));
+            );
+            if (!lines.some(l => l.isEq(drawLine))) {
+              lines.push(drawLine);
+            }
           }
           break;
       }
