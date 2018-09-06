@@ -135,11 +135,14 @@ class Turtle {
       (max[1] - min[1]) / (this.height - 2 * this.padding),
     );
 
+    const xPadding = Math.max(this.padding, (this.width - (max[0] - min[0]) / scale) / 2);
+    const yPadding = Math.max(this.padding, (this.height - (max[1] - min[1]) / scale) / 2);
+
     return lines.map(l => new Line(
-      (l.x1 - min[0]) / scale + this.padding,
-      (l.y1 - min[1]) / scale + this.padding,
-      (l.x2 - min[0]) / scale + this.padding,
-      (l.y2 - min[1]) / scale + this.padding,
+      (l.x1 - min[0]) / scale + xPadding,
+      (l.y1 - min[1]) / scale + yPadding,
+      (l.x2 - min[0]) / scale + xPadding,
+      (l.y2 - min[1]) / scale + yPadding,
     ));
   }
 }
