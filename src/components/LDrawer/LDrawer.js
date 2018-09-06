@@ -90,7 +90,7 @@ class LDrawer extends Component {
       variant,
     } = this.props;
 
-    let classNames = `drwr drwr-${anchor} ${className}`;
+    let classNames = ` ${className} drwr drwr-${anchor}`;
 
     if (variant === 'permanent') {
       return (

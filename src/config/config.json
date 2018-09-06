@@ -10,5 +10,147 @@
     "MAX_ITERATIONS": 12,
     "SCALE_FACTOR": 1.1,
     "ALPHA": 90,
-    "STEP_LENGTH": 50
+    "STEP_LENGTH": 50,
+    "PREVIEWS": [
+        {
+            "path": "/dragon_curve.png",
+            "initPath": "FX",
+            "replaceFn": [
+              {
+                "char": "F",
+                "str": "F",
+                "mandatory": true,
+                "active": true,
+                "drawing": true
+              },
+              {
+                "char": "f",
+                "str": "f",
+                "mandatory": false,
+                "active": false,
+                "drawing": false
+              },
+              {
+                "char": "X",
+                "str": "X+YF+",
+                "mandatory": false,
+                "active": true,
+                "drawing": false
+              },
+              {
+                "char": "Y",
+                "str": "-FX-Y",
+                "mandatory": false,
+                "active": true,
+                "drawing": false
+              }
+            ],
+            "alpha": 90
+        },
+        {
+            "path": "/creepy_snowflake.png",
+            "initPath": "[+F]--[+F]--[+F]--[+F]--[+F]--[+F]",
+            "replaceFn": [
+              {
+                "char": "F",
+                "str": "FF[+F][-F]",
+                "mandatory": true,
+                "active": true,
+                "drawing": true
+              },
+              {
+                "char": "f",
+                "str": "f",
+                "mandatory": false,
+                "active": false,
+                "drawing": false
+              }
+            ],
+            "alpha": 30
+        },
+        {
+            "path": "/fractal_plant.png",
+            "initPath": "----X",
+            "replaceFn": [
+              {
+                "char": "F",
+                "str": "FF",
+                "mandatory": true,
+                "active": true,
+                "drawing": true
+              },
+              {
+                "char": "f",
+                "str": "f",
+                "mandatory": false,
+                "active": false,
+                "drawing": false
+              },
+              {
+                "char": "X",
+                "str": "F+[[X]-X]-F[-FX]+X",
+                "mandatory": false,
+                "active": true,
+                "drawing": false
+              }
+            ],
+            "alpha": 25
+        },
+        {
+            "path": "/fractal_tree.png",
+            "initPath": "--F",
+            "replaceFn": [
+              {
+                "char": "F",
+                "str": "O[+F]-F",
+                "mandatory": true,
+                "active": true,
+                "drawing": true
+              },
+              {
+                "char": "f",
+                "str": "f",
+                "mandatory": false,
+                "active": false,
+                "drawing": false
+              },
+              {
+                "char": "O",
+                "str": "OO",
+                "mandatory": false,
+                "active": true,
+                "drawing": true
+              }
+            ],
+            "alpha": 45
+        },
+        {
+            "path": "/sierpinski_triangle.png",
+            "initPath": "F-G-G",
+            "replaceFn": [
+              {
+                "char": "F",
+                "str": "F-G+F+G-F",
+                "mandatory": true,
+                "active": true,
+                "drawing": true
+              },
+              {
+                "char": "f",
+                "str": "f",
+                "mandatory": false,
+                "active": false,
+                "drawing": false
+              },
+              {
+                "char": "G",
+                "str": "GG",
+                "mandatory": false,
+                "active": true,
+                "drawing": true
+              }
+            ],
+            "alpha": 120
+        }
+    ]
 }
