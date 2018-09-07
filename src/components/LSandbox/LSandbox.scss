@@ -29,8 +29,8 @@ button {
   font-size: 14px;
   text-transform: uppercase;
   font-weight: bold;
-  i{
-      animation: fade-in();
+  i {
+    animation: fade-in();
   }
 }
 
@@ -52,6 +52,7 @@ button {
 
 .right {
   flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .left {
@@ -60,10 +61,24 @@ button {
     max-width: unset;
   }
   flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .panel-content {
   padding: 16px;
+  overflow: auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  &:last-child {
+    flex-shrink: unset;
+  }
+}
+
+.replacement-strings {
+  flex-shrink: 1;
+  overflow: auto;
+  margin: 4px;
 }
 
 .fields {
@@ -121,4 +136,49 @@ button {
   display: flex;
   margin: auto;
   width: 100%;
+}
+
+.examples-btns {
+  margin-left: auto;
+}
+
+$img-size: 128px;
+.previews-content {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 100%;
+  .previews-headline {
+    padding: 8px;
+    line-height: 1;
+    display: flex;
+    h3 {
+      margin: auto;
+    }
+  }
+  #close-examples-drawer-btn {
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    margin-left: 8px;
+    border-radius: 50%;
+    i {
+      margin: auto;
+      color: $theme-text-secondary;
+    }
+  }
+  .preview-wrapper {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    img {
+      width: $img-size;
+      height: $img-size;
+    }
+  }
 }

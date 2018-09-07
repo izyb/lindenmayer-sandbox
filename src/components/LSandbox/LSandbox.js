@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './LSandbox.css';
 import InputField from '../InputField/InputField';
 import LCanvas from '../LCanvas/LCanvas';
+import LDrawer from '../LDrawer/LDrawer';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
 
@@ -10,6 +11,7 @@ const {
   MAX_ITERATIONS,
   STEP_LENGTH,
   ALPHA,
+  PREVIEWS,
 } = config;
 
 /**
@@ -52,9 +54,9 @@ class LSandbox extends Component {
           drawing: false,
         },
       ],
-      stepLength: STEP_LENGTH,
       alpha: ALPHA,
       iteration: 0,
+      stepLength: STEP_LENGTH,
       drawerOpen: false,
     };
 
@@ -63,6 +65,7 @@ class LSandbox extends Component {
     this.handleReplaceFn = this.handleReplaceFn.bind(this);
     this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
@@ -87,6 +90,17 @@ class LSandbox extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('wheel', this.handleScroll);
+  }
+
+  loadPreview(preview) {
+    this.toggleDrawer();
+    const { initPath, replaceFn, alpha } = preview;
+    this.setState({
+      initPath,
+      replaceFn,
+      alpha,
+      iteration: 0,
+    }, this.updateReplaceFns);
   }
 
   /**
@@ -200,10 +214,52 @@ class LSandbox extends Component {
       clientWidth,
       clientHeight,
       lines,
+      drawerOpen,
     } = this.state;
+
+    const drawer = (
+      <LDrawer
+        open={drawerOpen}
+        onClose={this.toggleDrawer}
+        variant="persistent"
+        anchor="right"
+      >
+        <div className="previews-content">
+          <div className="previews-headline">
+            <h3>Examples</h3>
+            <div
+              className="preview-wrapper"
+              onClick={this.toggleDrawer}
+              role="button"
+              tabIndex={0}
+              onKeyUp={() => { }}
+              id="close-examples-drawer-btn"
+            >
+              <i className="material-icons">chevron_right</i>
+            </div>
+          </div>
+          {PREVIEWS.map((preview => (
+            <div
+              key={preview.path}
+              className="preview-wrapper"
+              onClick={() => this.loadPreview(preview)}
+              role="button"
+              tabIndex={0}
+              onKeyUp={() => { }}
+            >
+              <img alt="" src={preview.path} />
+              <span>{preview.path.split('.png')[0].split('/')[1].split('_').join(' ')}</span>
+            </div>
+          )
+          ))}
+        </div>
+      </LDrawer>
+    );
+
 
     return (
       <div className="graph-wrapper">
+        {drawer}
         <div className="graph-panel left">
           <div
             ref={(node) => { this.wrapper = node; }}
@@ -231,6 +287,9 @@ class LSandbox extends Component {
           </div>
         </div>
         <div className="graph-panel right">
+          <div className="examples-btns">
+            <button type="button" onClick={this.toggleDrawer}>Examples</button>
+          </div>
           <div className="panel-content">
             <h4>Angle</h4>
             <InputField
@@ -253,49 +312,51 @@ class LSandbox extends Component {
           </div>
           <div className="panel-content">
             <h4>Replacement strings</h4>
-            <ul>
-              {replaceFn.map((rF, i) => (
-                <li key={rF.char}>
-                  <h5>{`${rF.char}:`}</h5>
-                  {rF.active ? (
-                    <React.Fragment>
-                      {!rF.mandatory
-                        && (
-                          <button
-                            type="button"
-                            onClick={e => this.handleReplaceFnToggle(e, i)}
-                            name="active"
-                          >
-                            <i className="material-icons">delete</i>
-                          </button>
-                        )
-                      }
-                      <InputField
-                        value={rF.str}
-                        onChange={e => this.handleReplaceFn(e, i)}
-                        type="text"
-                        name="str"
-                      />
+            <div className="replacement-strings">
+              <ul>
+                {replaceFn.map((rF, i) => (
+                  <li key={rF.char}>
+                    <h5>{`${rF.char}:`}</h5>
+                    {rF.active ? (
+                      <React.Fragment>
+                        {!rF.mandatory
+                          && (
+                            <button
+                              type="button"
+                              onClick={e => this.handleReplaceFnToggle(e, i)}
+                              name="active"
+                            >
+                              <i className="material-icons">delete</i>
+                            </button>
+                          )
+                        }
+                        <InputField
+                          value={rF.str}
+                          onChange={e => this.handleReplaceFn(e, i)}
+                          type="text"
+                          name="str"
+                        />
 
-                      <InputField
-                        type="checkbox"
-                        onChange={e => this.handleReplaceFnToggle(e, i)}
-                        value={!!rF.drawing}
-                        name="drawing"
-                      />
-                    </React.Fragment>
-                  )
-                    : (
-                      <button
-                        type="button"
-                        onClick={e => this.handleReplaceFnToggle(e, i)}
-                        name="active"
-                      >
-                        <i className="material-icons">add</i>
-                      </button>)}
-                </li>
-              ))}
-            </ul>
+                        <InputField
+                          type="checkbox"
+                          onChange={e => this.handleReplaceFnToggle(e, i)}
+                          value={!!rF.drawing}
+                          name="drawing"
+                        />
+                      </React.Fragment>
+                    )
+                      : (
+                        <button
+                          type="button"
+                          onClick={e => this.handleReplaceFnToggle(e, i)}
+                          name="active"
+                        >
+                          <i className="material-icons">add</i>
+                        </button>)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
