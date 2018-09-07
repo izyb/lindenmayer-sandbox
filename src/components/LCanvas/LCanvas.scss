@@ -28,7 +28,12 @@
   padding: 16px;
   white-space: nowrap;
   overflow: hidden;
-  @include slide-in(right);
+  animation: toolbar 4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+  &:hover {
+    opacity: 1;
+  }
   button {
     background: none;
     i {
@@ -42,5 +47,14 @@
         color: darken(grey, 20%);
       }
     }
+  }
+}
+
+@keyframes toolbar {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

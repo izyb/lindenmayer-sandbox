@@ -48,12 +48,15 @@ class Turtle {
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
         case 'F':
-          lines.push(new Line(
+          const fLine = new Line(
             curr.x,
             curr.y,
             curr.x += Math.round(stepLength * Math.cos(theta)),
             curr.y += Math.round(stepLength * Math.sin(theta)),
-          ));
+          );
+          if (!lines.some(l => l.isEq(fLine))) {
+            lines.push(fLine);
+          }
           break;
         case 'f':
           curr.x += Math.round(stepLength * Math.cos(theta));
@@ -70,19 +73,25 @@ class Turtle {
           break;
         case ']':
           const s = stack.pop();
-          curr.x = s.x;
-          curr.y = s.y;
-          ({ theta } = s);
+          if (s) {
+            curr.x = s.x;
+            curr.y = s.y;
+            ({ theta } = s);
+          }
           break;
         default:
           const char = replaceFn.find(rF => rF.char === moves[j]);
+
           if (char && char.drawing) {
-            lines.push(new Line(
+            const drawLine = new Line(
               curr.x,
               curr.y,
               curr.x += Math.round(stepLength * Math.cos(theta)),
               curr.y += Math.round(stepLength * Math.sin(theta)),
-            ));
+            );
+            if (!lines.some(l => l.isEq(drawLine))) {
+              lines.push(drawLine);
+            }
           }
           break;
       }
@@ -126,11 +135,14 @@ class Turtle {
       (max[1] - min[1]) / (this.height - 2 * this.padding),
     );
 
+    const xPadding = Math.max(this.padding, (this.width - (max[0] - min[0]) / scale) / 2);
+    const yPadding = Math.max(this.padding, (this.height - (max[1] - min[1]) / scale) / 2);
+
     return lines.map(l => new Line(
-      (l.x1 - min[0]) / scale + this.padding,
-      (l.y1 - min[1]) / scale + this.padding,
-      (l.x2 - min[0]) / scale + this.padding,
-      (l.y2 - min[1]) / scale + this.padding,
+      (l.x1 - min[0]) / scale + xPadding,
+      (l.y1 - min[1]) / scale + yPadding,
+      (l.x2 - min[0]) / scale + xPadding,
+      (l.y2 - min[1]) / scale + yPadding,
     ));
   }
 }
