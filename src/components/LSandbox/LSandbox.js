@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 import './LSandbox.css';
-import InputField from '../InputField/InputField';
+import {
+  Button,
+  TextField,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  IconButton,
+  ListItemText,
+  Typography,
+  Paper,
+  Drawer,
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Range from '../Range/Range';
+import githubMark from '../../GitHub-Mark.svg';
 import LCanvas from '../LCanvas/LCanvas';
-import LDrawer from '../LDrawer/LDrawer';
 import Turtle from '../../services/turtle';
 import config from '../../config/config.json';
 
@@ -23,32 +38,32 @@ class LSandbox extends Component {
     this.state = {
       clientWidth: 0,
       clientHeight: 0,
-      initPath: 'FX',
+      initPath: 'fx',
       replaceFn: [
         {
-          char: 'F',
-          str: 'F',
+          char: 'f',
+          str: 'f',
           mandatory: true,
           active: true,
           drawing: true,
         },
         {
-          char: 'f',
-          str: 'f',
+          char: 's',
+          str: 's',
           mandatory: false,
           active: false,
           drawing: false,
         },
         {
-          char: 'X',
-          str: 'X+YF+',
+          char: 'x',
+          str: 'x+yf+',
           mandatory: false,
           active: true,
           drawing: false,
         },
         {
-          char: 'Y',
-          str: '-FX-Y',
+          char: 'y',
+          str: '-fx-y',
           mandatory: false,
           active: true,
           drawing: false,
@@ -115,18 +130,19 @@ class LSandbox extends Component {
       alpha,
       stepLength,
     } = this.state;
-    const chars = replaceFn.map(rF => rF.char);
-    const initChars = initPath.split('');
+    const chars = replaceFn.map(rF => rF.char.toLowerCase());
+    const initChars = initPath.toLowerCase().split('');
     replaceFn.forEach((rF) => {
       if (rF.active) {
-        initChars.push(...rF.str.split(''));
+        initChars.push(...rF.str.toLowerCase().split(''));
       }
     });
-    initChars.forEach((char) => {
+    initChars.forEach((character) => {
+      const char = character.toLowerCase();
       if (
         !!char.trim()
         && !chars.includes(char)
-        && !RESERVED_CHARS.includes(char)
+        && !RESERVED_CHARS.map(c => c.toLowerCase()).includes(char)
       ) {
         replaceFn.push({
           char,
@@ -137,9 +153,13 @@ class LSandbox extends Component {
         });
       }
     });
-    chars.forEach((char) => {
-      if (!initChars.includes(char) && !RESERVED_CHARS.includes(char)) {
-        const j = replaceFn.findIndex(rF => rF.char === char);
+    chars.forEach((character) => {
+      const char = character.toLowerCase();
+      if (
+        !initChars.map(c => c.toLowerCase()).includes(char)
+        && !RESERVED_CHARS.map(c => c.toLowerCase()).includes(char)
+      ) {
+        const j = replaceFn.findIndex(rF => rF.char.toLowerCase() === char);
         replaceFn.splice(j, 1);
       }
     });
@@ -197,7 +217,7 @@ class LSandbox extends Component {
       clientWidth,
       clientHeight,
       turtle,
-    });
+    }, this.updateReplaceFns);
   }
 
   toggleDrawer() {
@@ -218,7 +238,7 @@ class LSandbox extends Component {
     } = this.state;
 
     const drawer = (
-      <LDrawer
+      <Drawer
         open={drawerOpen}
         onClose={this.toggleDrawer}
         variant="persistent"
@@ -226,140 +246,151 @@ class LSandbox extends Component {
       >
         <div className="previews-content">
           <div className="previews-headline">
-            <h3>Examples</h3>
-            <div
-              className="preview-wrapper"
-              onClick={this.toggleDrawer}
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => { }}
-              id="close-examples-drawer-btn"
-            >
-              <i className="material-icons">chevron_right</i>
-            </div>
+            <Typography variant="subheading">Examples</Typography>
+            <IconButton onClick={this.toggleDrawer}>
+              <ChevronRightIcon />
+            </IconButton>
           </div>
           {PREVIEWS.map((preview => (
-            <div
+            <ListItem
               key={preview.path}
+              button
               className="preview-wrapper"
               onClick={() => this.loadPreview(preview)}
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => { }}
             >
               <img alt="" src={preview.path} />
               <span>{preview.path.split('.png')[0].split('/')[1].split('_').join(' ')}</span>
-            </div>
+            </ListItem>
           )
           ))}
         </div>
-      </LDrawer>
+      </Drawer>
     );
 
 
     return (
-      <div className="graph-wrapper">
+      <React.Fragment>
         {drawer}
-        <div className="graph-panel left">
-          <div
-            ref={(node) => { this.wrapper = node; }}
-            className="graph-canvas-wrapper"
-          >
-            <LCanvas
-              lines={lines}
-              width={clientWidth}
-              height={clientHeight}
-            />
-          </div>
-          <div className="panel-content">
-            <div className="graph-slider">
-              <InputField
-                value={iteration}
-                name="iteration"
-                type="range"
-                inputProps={{
-                  min: '0',
-                  max: MAX_ITERATIONS,
-                }}
-                onChange={this.handleChange}
+        <div className="graph-wrapper">
+          <div className="graph-panel left">
+            <div
+              ref={(node) => { this.wrapper = node; }}
+              className="graph-canvas-wrapper"
+            >
+              <LCanvas
+                lines={lines}
+                width={clientWidth}
+                height={clientHeight}
               />
             </div>
+            <Paper className="panel-content">
+              <div className="graph-slider">
+                <Range
+                  value={iteration}
+                  name="iteration"
+                  type="range"
+                  inputProps={{
+                    min: '0',
+                    max: MAX_ITERATIONS,
+                  }}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </Paper>
           </div>
-        </div>
-        <div className="graph-panel right">
-          <div className="examples-btns">
-            <button type="button" onClick={this.toggleDrawer}>Examples</button>
-          </div>
-          <div className="panel-content">
-            <h4>Angle</h4>
-            <InputField
-              value={alpha}
-              name="alpha"
-              onChange={this.handleChange}
-              type="number"
-              max={360}
-              min={0}
-            />
-          </div>
-          <div className="panel-content">
-            <h4>Initial Path</h4>
-            <InputField
-              value={initPath}
-              name="initPath"
-              onChange={this.handleChange}
-              type="text"
-            />
-          </div>
-          <div className="panel-content">
-            <h4>Replacement strings</h4>
-            <div className="replacement-strings">
-              <ul>
-                {replaceFn.map((rF, i) => (
-                  <li key={rF.char}>
-                    <h5>{`${rF.char}:`}</h5>
-                    {rF.active ? (
-                      <React.Fragment>
-                        {!rF.mandatory
-                          && (
-                            <button
-                              type="button"
+          <div className="graph-panel right">
+            <Paper className="panel-content" id="main-params">
+              <div id="param-title">
+                <Typography variant="title">
+                  Main Parameters
+                </Typography>
+                <Button onClick={this.toggleDrawer}>Examples</Button>
+              </div>
+              <TextField
+                className="text-field"
+                value={alpha}
+                name="alpha"
+                onChange={this.handleChange}
+                type="number"
+                max={360}
+                min={0}
+                label="Angle"
+              />
+              <TextField
+                className="text-field"
+                value={initPath}
+                name="initPath"
+                onChange={this.handleChange}
+                type="text"
+                label="Initial Path"
+              />
+            </Paper>
+            <Paper className="panel-content" id="replacement-strings">
+              <Typography variant="title">Replacement strings</Typography>
+              <div className="replacement-strings">
+                <List dense>
+                  {replaceFn.map((rF, i) => (
+                    <ListItem key={rF.char}>
+                      <Button
+                        variant="fab"
+                        mini
+                        onClick={e => this.handleReplaceFnToggle(e, i)}
+                        name="drawing"
+                        color={rF.drawing ? 'primary' : 'default'}
+                        disabled={!rF.active}
+                      >
+                        {rF.char}
+                      </Button>
+                      {rF.active ? (
+                        <React.Fragment>
+                          {!rF.mandatory
+                            && (
+                              <ListItemSecondaryAction>
+                                <IconButton
+                                  onClick={e => this.handleReplaceFnToggle(e, i)}
+                                  name="active"
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            )
+                          }
+                          <ListItemText
+                            primary={(
+                              <TextField
+                                value={rF.str}
+                                onChange={e => this.handleReplaceFn(e, i)}
+                                type="text"
+                                name="str"
+                                fullWidth
+                              />
+                            )}
+                          />
+                        </React.Fragment>
+                      )
+                        : (
+                          <ListItemSecondaryAction>
+                            <IconButton
                               onClick={e => this.handleReplaceFnToggle(e, i)}
                               name="active"
                             >
-                              <i className="material-icons">delete</i>
-                            </button>
-                          )
-                        }
-                        <InputField
-                          value={rF.str}
-                          onChange={e => this.handleReplaceFn(e, i)}
-                          type="text"
-                          name="str"
-                        />
-
-                        <InputField
-                          type="checkbox"
-                          onChange={e => this.handleReplaceFnToggle(e, i)}
-                          value={!!rF.drawing}
-                          name="drawing"
-                        />
-                      </React.Fragment>
-                    )
-                      : (
-                        <button
-                          type="button"
-                          onClick={e => this.handleReplaceFnToggle(e, i)}
-                          name="active"
-                        >
-                          <i className="material-icons">add</i>
-                        </button>)}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                              <AddIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        )}
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Paper>
+          </div>
+          <div className="footer">
+            <a href="https://github.com/izyb/lindenmayer-sandbox">
+              <img className="github-link" alt="github" src={githubMark} />
+            </a>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

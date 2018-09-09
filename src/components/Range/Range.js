@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './InputField.css';
+import './Range.css';
 
-function InputField(props) {
+function Range(props) {
   const {
     name,
     value,
@@ -20,7 +20,7 @@ function InputField(props) {
   };
 
   return (
-    <div className={`input-field-wrapper ${type}-input`}>
+    <div className="range-wrapper">
       <input
         {...inputElementProps}
         {...inputProps}
@@ -29,7 +29,7 @@ function InputField(props) {
   );
 }
 
-InputField.propTypes = {
+Range.propTypes = {
   name: PropTypes.string,
   value: PropTypes.any,
   type: PropTypes.string,
@@ -37,7 +37,7 @@ InputField.propTypes = {
   onChange: PropTypes.func,
 };
 
-InputField.defaultProps = {
+Range.defaultProps = {
   name: null,
   value: '',
   type: 'text',
@@ -45,4 +45,4 @@ InputField.defaultProps = {
   onChange: null,
 };
 
-export default InputField;
+export default Range;

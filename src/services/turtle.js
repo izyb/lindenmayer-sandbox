@@ -28,7 +28,7 @@ class Turtle {
    */
   parse(str, replaceFn, iteration, alpha, stepLength) {
     let theta = 0; // start at angle 0
-    let moves = str.split('');
+    let moves = str.toLowerCase().split('');
     const lines = [];
     const curr = { x: 0, y: 0 };
     const stack = [];
@@ -47,7 +47,7 @@ class Turtle {
     }
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
-        case 'F':
+        case 'f':
           const fLine = new Line(
             curr.x,
             curr.y,
@@ -58,7 +58,7 @@ class Turtle {
             lines.push(fLine);
           }
           break;
-        case 'f':
+        case 's':
           curr.x += Math.round(stepLength * Math.cos(theta));
           curr.y += Math.round(stepLength * Math.sin(theta));
           break;

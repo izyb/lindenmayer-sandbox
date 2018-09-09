@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
-import githubMark from './GitHub-Mark-32px.png';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import LSandbox from './components/LSandbox/LSandbox';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: 'rgb(175, 14, 22)' },
+    secondary: { main: 'rgba(24, 98, 148, 0.637)' },
+  },
+});
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="banner">
-          <h1>Lindenmayer Sandbox</h1>
-          <a href="https://github.com/izyb/lindenmayer-sandbox">
-            <img className="github-link" alt="github" src={githubMark} />
-          </a>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <div className="banner">
+            <h1>lindenmayer sandbox</h1>
+          </div>
+          <div className="main-content">
+            <LSandbox />
+          </div>
         </div>
-        <LSandbox />
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
