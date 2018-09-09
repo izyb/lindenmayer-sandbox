@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './LCanvas.css';
+import {
+  IconButton,
+} from '@material-ui/core';
+import CameraIcon from '@material-ui/icons/Camera';
+import RestoreIcon from '@material-ui/icons/Restore';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import Line from '../../models/line';
 import config from '../../config/config.json';
 
@@ -47,6 +53,10 @@ class LCanvas extends Component {
     });
   }
 
+  /**
+   * Updates canvas state after checking if important properties changed.
+   * @param {Object} prevProps - Previous component properties object.
+   */
   componentDidUpdate(prevProps) {
     const { lines, width, height } = this.props;
     if (prevProps.lines !== lines || height !== prevProps.height || width !== prevProps.width) {
@@ -92,11 +102,14 @@ class LCanvas extends Component {
     });
   }
 
+  /**
+   * Copies current canvas image and prompts a user download dialog.
+   */
   downloadState() {
     this.canvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.download = 'canvas.png';
+      a.download = 'snapshot.png';
       a.href = url;
       document.body.appendChild(a);
       a.click();
@@ -104,6 +117,9 @@ class LCanvas extends Component {
     });
   }
 
+  /**
+   * Resets canvas scaling and offsets to initial state.
+   */
   resetFrame() {
     this.setState({
       offsetX: 0,
@@ -217,15 +233,15 @@ class LCanvas extends Component {
           className={`L-canvas ${inverted ? 'L-canvas-inverted' : ''}`}
         />
         <div className="L-canvas-toolbar">
-          <button type="button" onClick={this.downloadState}>
-            <i className="material-icons">camera</i>
-          </button>
-          <button type="button" onClick={this.resetFrame}>
-            <i className="material-icons">restore</i>
-          </button>
-          <button type="button" onClick={() => this.setState({ inverted: !inverted }, this.animate)}>
-            <i className="material-icons">invert_colors</i>
-          </button>
+          <IconButton type="button" onClick={this.downloadState}>
+            <CameraIcon />
+          </IconButton>
+          <IconButton type="button" onClick={this.resetFrame}>
+            <RestoreIcon />
+          </IconButton>
+          <IconButton type="button" onClick={() => this.setState({ inverted: !inverted }, this.animate)}>
+            <InvertColorsIcon />
+          </IconButton>
         </div>
       </div>
     );

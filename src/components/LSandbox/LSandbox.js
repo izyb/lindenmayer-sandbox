@@ -261,8 +261,8 @@ class LSandbox extends Component {
               className="preview-wrapper"
               onClick={() => this.loadPreview(preview)}
             >
-              <img alt="" src={preview.path} />
-              <span>{preview.path.split('.png')[0].split('/')[1].split('_').join(' ')}</span>
+              <img alt={preview.path.split('.')[0].slice(1)} src={preview.path} />
+              <span>{preview.path.split('.')[0].slice(1).replace('_', ' ')}</span>
             </ListItem>
           )
           ))}
@@ -274,11 +274,11 @@ class LSandbox extends Component {
     return (
       <React.Fragment>
         {drawer}
-        <div className="graph-wrapper">
-          <div className="graph-panel left">
+        <div className="sandbox-wrapper">
+          <div className="sandbox-panel left">
             <div
               ref={(node) => { this.wrapper = node; }}
-              className="graph-canvas-wrapper"
+              className="sandbox-canvas-wrapper"
             >
               <LCanvas
                 lines={lines}
@@ -287,21 +287,18 @@ class LSandbox extends Component {
               />
             </div>
             <Paper className="panel-content">
-              <div className="graph-slider">
+              <div className="sandbox-slider">
                 <Range
                   value={iteration}
                   name="iteration"
-                  type="range"
-                  inputProps={{
-                    min: '0',
-                    max: MAX_ITERATIONS,
-                  }}
+                  min={0}
+                  max={MAX_ITERATIONS}
                   onChange={this.handleChange}
                 />
               </div>
             </Paper>
           </div>
-          <div className="graph-panel right">
+          <div className="sandbox-panel right">
             <Paper className="panel-content" id="main-params">
               <div id="param-title">
                 <Typography variant="title">
@@ -372,14 +369,17 @@ class LSandbox extends Component {
                         </React.Fragment>
                       )
                         : (
-                          <ListItemSecondaryAction>
-                            <IconButton
-                              onClick={e => this.handleReplaceFnToggle(e, i)}
-                              name="active"
-                            >
-                              <AddIcon />
-                            </IconButton>
-                          </ListItemSecondaryAction>
+                          <React.Fragment>
+                            <ListItemText />
+                            <ListItemSecondaryAction>
+                              <IconButton
+                                onClick={e => this.handleReplaceFnToggle(e, i)}
+                                name="active"
+                              >
+                                <AddIcon />
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          </React.Fragment>
                         )}
                     </ListItem>
                   ))}
@@ -388,7 +388,13 @@ class LSandbox extends Component {
             </Paper>
           </div>
           <div className="footer">
-            <a href="https://github.com/izyb/lindenmayer-sandbox">
+            {/* <Typography variant="caption" id="github-link">
+              Built by&nbsp;
+              <a target="blank" href="https://github.com/izyb">izyb</a>
+              &nbsp;and&nbsp;
+              <a target="blank" href="https://github.com/tiffanyq">tiffanyq</a>
+            </Typography> */}
+            <a href="https://github.com/izyb/lindenmayer-sandbox" id="repo-link">
               <img className="github-link" alt="github" src={githubMark} />
             </a>
           </div>

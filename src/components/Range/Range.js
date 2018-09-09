@@ -6,24 +6,24 @@ function Range(props) {
   const {
     name,
     value,
-    type,
-    inputProps,
     onChange,
+    max,
+    min,
   } = props;
 
   const inputElementProps = {
     name,
-    value: type === 'checkbox' ? '' : value,
-    checked: type === 'checkbox' ? value : '',
-    type,
+    value,
     onChange,
+    max,
+    min,
   };
 
   return (
     <div className="range-wrapper">
       <input
+        type="range"
         {...inputElementProps}
-        {...inputProps}
       />
     </div>
   );
@@ -32,16 +32,16 @@ function Range(props) {
 Range.propTypes = {
   name: PropTypes.string,
   value: PropTypes.any,
-  type: PropTypes.string,
-  inputProps: PropTypes.object,
+  max: PropTypes.number,
+  min: PropTypes.number,
   onChange: PropTypes.func,
 };
 
 Range.defaultProps = {
   name: null,
   value: '',
-  type: 'text',
-  inputProps: null,
+  max: 100,
+  min: 0,
   onChange: null,
 };
 

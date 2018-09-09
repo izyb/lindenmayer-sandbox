@@ -15,7 +15,7 @@
   height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
-  box-shadow: shadow(2);
+  @include shadow(2);
 }
 
 .L-canvas-inverted {
@@ -29,33 +29,24 @@
   padding: 16px;
   white-space: nowrap;
   overflow: hidden;
-  animation: toolbar 4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  animation: fade-out(4s, cubic-bezier(0.95, 0.05, 0.795, 0.035));
   opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition: opacity 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
   &:hover {
     opacity: 1;
   }
   button {
     background: none;
-    i {
-      transition: color 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    svg {
+      transition: color 0.6s cubic-bezier(0.39, 0.575, 0.565, 1);
       color: grey;
     }
     border: none;
     box-shadow: none;
     &:hover {
-      i {
+      svg {
         color: darken(grey, 20%);
       }
     }
-  }
-}
-
-@keyframes toolbar {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }

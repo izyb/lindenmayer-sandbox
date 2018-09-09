@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import LSandbox from './components/LSandbox/LSandbox';
 
 const theme = createMuiTheme({
@@ -15,7 +16,7 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="App">
           <div className="banner">
-            <h1>lindenmayer sandbox</h1>
+            <Typography variant="headline">lindenmayer sandbox</Typography>
           </div>
           <div className="main-content">
             <LSandbox />
