@@ -1,10 +1,59 @@
+@import "../../effects";
+@import "../../palettes";
+$thumb-size: 12px;
+@mixin thumb() {
+  width: $thumb-size;
+  height: $thumb-size;
+  border-radius: $thumb-size;
+  background: $theme-primary;
+  border: none;
+  @include shadow(2);
+}
+
+$track-height: 2px;
+@mixin track() {
+  box-sizing: border-box;
+  height: $track-height;
+  width: 100%;
+  background: rgba($theme-primary, 0.24);
+  @include shadow(2);
+}
+
+@mixin fill() {
+  background: $theme-primary;
+}
+
 .range-wrapper {
   flex-grow: 1;
   box-sizing: border-box;
   width: 100%;
-  input {
+  input[type=range] {
     box-sizing: border-box;
     width: inherit;
-    margin: 0;
+    margin: auto;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      margin-top: -5px;
+      box-shadow: -100vw 0 0 100vw #{$theme-primary};
+      @include thumb();
+    }
+    &::-moz-range-thumb {
+      @include thumb();
+    }
+    &::-webkit-slider-runnable-track {
+      @include track();
+    }
+    &::-moz-range-track {
+      @include track();
+    }
+    &::-moz-range-progress {
+      @include fill();
+    }
+    &::-ms-fill-lower {
+      @include fill();
+    }
   }
 }
