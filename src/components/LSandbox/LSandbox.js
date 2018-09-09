@@ -243,6 +243,9 @@ class LSandbox extends Component {
         onClose={this.toggleDrawer}
         variant="persistent"
         anchor="right"
+        SlideProps={{
+          unmountOnExit: true,
+        }}
       >
         <div className="previews-content">
           <div className="previews-headline">

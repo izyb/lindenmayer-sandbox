@@ -22,7 +22,7 @@ ul {
   flex: 1;
   display: grid;
   grid-template-rows: 100% 56px;
-  grid-template-columns: repeat(3, minmax(auto, 440px));
+  grid-template-columns: repeat(3, minmax(auto, 33%));
   grid-column-gap: 24px;
   overflow: auto;
 }
@@ -37,6 +37,7 @@ ul {
   padding-left: 24px;
   grid-column-start: 1;
   max-width: 80vh;
+  min-width: 440px;
 }
 
 .right {
