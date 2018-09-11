@@ -3,7 +3,7 @@
 .App {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inconsolata', monospace;
   color: $theme-text-primary;
   position: fixed;
   top: 0;
@@ -12,25 +12,32 @@
   right: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   background-color: $theme-background;
 }
 
+$banner-height: 48px;
 .banner {
-  height: 56px;
+  height: $banner-height;
+  flex-shrink: 0;
   background-color: $theme-primary;
   width: 100%;
   display: flex;
-  box-shadow: shadow(2);
   z-index: 1;
-  a {
-    margin: auto 4px 4px auto;
-  }
+  overflow: hidden;
+  @include shadow(2);
   h1 {
     margin: auto 8px;
     white-space: nowrap;
     color: $theme-white;
   }
+}
+
+.main-content{
+  flex-shrink: 0;
+  height: calc(100vh - #{$banner-height});
+  display: flex;
+  flex-direction: column;
 }

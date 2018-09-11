@@ -1,7 +1,7 @@
 {
     "RESERVED_CHARS": [
-        "F",
         "f",
+        "s",
         "+",
         "-",
         "[",
@@ -14,32 +14,32 @@
     "PREVIEWS": [
         {
             "path": "/dragon_curve.png",
-            "initPath": "FX",
+            "initPath": "fx",
             "replaceFn": [
               {
-                "char": "F",
-                "str": "F",
+                "char": "f",
+                "str": "f",
                 "mandatory": true,
                 "active": true,
                 "drawing": true
               },
               {
-                "char": "f",
-                "str": "f",
+                "char": "s",
+                "str": "s",
                 "mandatory": false,
                 "active": false,
                 "drawing": false
               },
               {
-                "char": "X",
-                "str": "X+YF+",
+                "char": "x",
+                "str": "x+yf+",
                 "mandatory": false,
                 "active": true,
                 "drawing": false
               },
               {
-                "char": "Y",
-                "str": "-FX-Y",
+                "char": "y",
+                "str": "-fx-y",
                 "mandatory": false,
                 "active": true,
                 "drawing": false
@@ -49,18 +49,18 @@
         },
         {
             "path": "/creepy_snowflake.png",
-            "initPath": "[+F]--[+F]--[+F]--[+F]--[+F]--[+F]",
+            "initPath": "[+f]--[+f]--[+f]--[+f]--[+f]--[+f]",
             "replaceFn": [
               {
-                "char": "F",
-                "str": "FF[+F][-F]",
+                "char": "f",
+                "str": "ff[+f][-f]",
                 "mandatory": true,
                 "active": true,
                 "drawing": true
               },
               {
-                "char": "f",
-                "str": "f",
+                "char": "s",
+                "str": "s",
                 "mandatory": false,
                 "active": false,
                 "drawing": false
@@ -70,25 +70,25 @@
         },
         {
             "path": "/fractal_plant.png",
-            "initPath": "----X",
+            "initPath": "----x",
             "replaceFn": [
               {
-                "char": "F",
-                "str": "FF",
+                "char": "f",
+                "str": "ff",
                 "mandatory": true,
                 "active": true,
                 "drawing": true
               },
               {
-                "char": "f",
-                "str": "f",
+                "char": "s",
+                "str": "s",
                 "mandatory": false,
                 "active": false,
                 "drawing": false
               },
               {
-                "char": "X",
-                "str": "F+[[X]-X]-F[-FX]+X",
+                "char": "x",
+                "str": "f+[[x]-x]-f[-fx]+x",
                 "mandatory": false,
                 "active": true,
                 "drawing": false
@@ -98,25 +98,25 @@
         },
         {
             "path": "/fractal_tree.png",
-            "initPath": "--F",
+            "initPath": "--f",
             "replaceFn": [
               {
-                "char": "F",
-                "str": "O[+F]-F",
+                "char": "f",
+                "str": "o[+f]-f",
                 "mandatory": true,
                 "active": true,
                 "drawing": true
               },
               {
-                "char": "f",
-                "str": "f",
+                "char": "s",
+                "str": "s",
                 "mandatory": false,
                 "active": false,
                 "drawing": false
               },
               {
-                "char": "O",
-                "str": "OO",
+                "char": "o",
+                "str": "oo",
                 "mandatory": false,
                 "active": true,
                 "drawing": true
@@ -126,25 +126,25 @@
         },
         {
             "path": "/sierpinski_triangle.png",
-            "initPath": "F-G-G",
+            "initPath": "f-g-g",
             "replaceFn": [
               {
-                "char": "F",
-                "str": "F-G+F+G-F",
+                "char": "f",
+                "str": "f-g+f+g-f",
                 "mandatory": true,
                 "active": true,
                 "drawing": true
               },
               {
-                "char": "f",
-                "str": "f",
+                "char": "s",
+                "str": "s",
                 "mandatory": false,
                 "active": false,
                 "drawing": false
               },
               {
-                "char": "G",
-                "str": "GG",
+                "char": "g",
+                "str": "gg",
                 "mandatory": false,
                 "active": true,
                 "drawing": true
