@@ -261,8 +261,8 @@ class LSandbox extends Component {
               className="preview-wrapper"
               onClick={() => this.loadPreview(preview)}
             >
-              <img alt={preview.path.split('.')[0].slice(1)} src={preview.path} />
-              <span>{preview.path.split('.')[0].slice(1).replace('_', ' ')}</span>
+              <img alt={preview.path.split('.')[1].slice(1)} src={preview.path} />
+              <span>{preview.path.split('.')[1].slice(1).replace('_', ' ')}</span>
             </ListItem>
           )
           ))}

@@ -13,7 +13,7 @@
     "STEP_LENGTH": 50,
     "PREVIEWS": [
         {
-            "path": "/dragon_curve.png",
+            "path": "./dragon_curve.png",
             "initPath": "fx",
             "replaceFn": [
               {
@@ -48,7 +48,7 @@
             "alpha": 90
         },
         {
-            "path": "/creepy_snowflake.png",
+            "path": "./creepy_snowflake.png",
             "initPath": "[+f]--[+f]--[+f]--[+f]--[+f]--[+f]",
             "replaceFn": [
               {
@@ -69,7 +69,7 @@
             "alpha": 30
         },
         {
-            "path": "/fractal_plant.png",
+            "path": "./fractal_plant.png",
             "initPath": "----x",
             "replaceFn": [
               {
@@ -97,7 +97,7 @@
             "alpha": 25
         },
         {
-            "path": "/fractal_tree.png",
+            "path": "./fractal_tree.png",
             "initPath": "--f",
             "replaceFn": [
               {
@@ -125,7 +125,7 @@
             "alpha": 45
         },
         {
-            "path": "/sierpinski_triangle.png",
+            "path": "./sierpinski_triangle.png",
             "initPath": "f-g-g",
             "replaceFn": [
               {
