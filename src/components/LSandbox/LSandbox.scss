@@ -69,17 +69,18 @@ ul {
   .sandbox-wrapper {
     grid-template-rows: auto auto #{$footer-height};
     grid-template-columns: 1fr;
+    .right {
+      grid-column-start: 1;
+      padding-left: 24px;
+    }
+    .left {
+      max-width: unset;
+      padding-right: 24px;
+      min-width: unset;
+    }
   }
   .sandbox-panel {
     grid-column-end: end;
-  }
-  .right {
-    grid-column-start: 1;
-    padding-left: 24px;
-  }
-  .left {
-    max-width: unset;
-    padding-right: 24px;
   }
   .footer {
     grid-column-start: 1;
@@ -89,7 +90,7 @@ ul {
 
 #main-params {
   grid-column-start: 1;
-  grid-column-end: 4;
+  grid-column-end: end;
   .text-field {
     margin: 8px;
   }
