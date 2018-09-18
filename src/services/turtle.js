@@ -32,6 +32,7 @@ class Turtle {
     const lines = [];
     const curr = { x: 0, y: 0 };
     const stack = [];
+    let start = performance.now();
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
         if (!replaceFn.some((rF) => {
@@ -45,6 +46,8 @@ class Turtle {
         return array;
       }, []);
     }
+    console.log(`iterations built: ${performance.now() - start}ms`);
+    start = performance.now();
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
         case 'f':
@@ -54,7 +57,7 @@ class Turtle {
             curr.x += Math.round(stepLength * Math.cos(theta)),
             curr.y += Math.round(stepLength * Math.sin(theta)),
           );
-          if (!lines.some(l => l.isEq(fLine))) {
+          if (!lines.find(l => l.isEq(fLine))) {
             lines.push(fLine);
           }
           break;
@@ -89,13 +92,14 @@ class Turtle {
               curr.x += Math.round(stepLength * Math.cos(theta)),
               curr.y += Math.round(stepLength * Math.sin(theta)),
             );
-            if (!lines.some(l => l.isEq(drawLine))) {
+            if (!lines.find(l => l.isEq(drawLine))) {
               lines.push(drawLine);
             }
           }
           break;
       }
     }
+    console.log(`lines built: ${performance.now() - start}ms`);
     return this.normalize(lines);
   }
 
@@ -105,6 +109,7 @@ class Turtle {
    * @param {Array} lines - collection of lines.
    */
   normalize(lines) {
+    const start = performance.now();
     if (lines.length === 0) return lines;
     const getMin = line => [
       Math.min(...line.getX()),
@@ -137,8 +142,7 @@ class Turtle {
 
     const xPadding = Math.max(this.padding, (this.width - (max[0] - min[0]) / scale) / 2);
     const yPadding = Math.max(this.padding, (this.height - (max[1] - min[1]) / scale) / 2);
-
-    return lines.map(l => new Line(
+    const retLines = lines.map(l => new Line(
       (l.x1 - min[0]) / scale + xPadding,
       (l.y1 - min[1]) / scale + yPadding,
       (l.x2 - min[0]) / scale + xPadding,
