@@ -148,6 +148,50 @@ class Turtle {
       (l.x2 - min[0]) / scale + xPadding,
       (l.y2 - min[1]) / scale + yPadding,
     ));
+    console.log(`normalize: ${performance.now() - start}ms`);
+    return Turtle.optimize(retLines);
+  }
+
+  /**
+   * Optimizes lines for animating by joining multiple existing parallel lines
+   * into a single line.
+   * @param {Array<Line>} lines - Normalized array of Line objects.
+   */
+  static optimize(lines) {
+    const start = performance.now();
+    const newLines = [];
+    for (let i = 0; i < lines.length; i += 1) {
+      const line = lines[i];
+      const slope = line.slope();
+      const newLine = new Line(line.x1, line.y1, line.x2, line.y2);
+      let j = i + 1;
+      while (j < lines.length) {
+        const otherLine = lines[j];
+        if (otherLine.isJoined(newLine) && otherLine.isParallel(newLine)) {
+          const x = [...otherLine.getX(), ...newLine.getX()];
+          const y = [...otherLine.getY(), ...newLine.getY()];
+          if (slope > 0) {
+            newLine.x1 = Math.min(...x);
+            newLine.x2 = Math.max(...x);
+            newLine.y1 = Math.min(...y);
+            newLine.y2 = Math.max(...y);
+          } else {
+            newLine.x1 = Math.min(...x);
+            newLine.x2 = Math.max(...x);
+            newLine.y1 = Math.max(...y);
+            newLine.y2 = Math.min(...y);
+          }
+          lines.splice(j, 1);
+          j = i + 1;
+        } else {
+          j += 1;
+        }
+      }
+      newLines.push(newLine);
+    }
+    console.log(`optimized: ${performance.now() - start}ms`);
+    console.log();
+    return newLines;
   }
 }
 
