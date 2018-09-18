@@ -43,11 +43,55 @@ export default class Line {
     return [this.y1, this.y2];
   }
 
+  /**
+   * Given another Line, return true if the two lines share both points.
+   * @param {Line} line - Line to compare.
+   */
   isEq(line) {
     if (!Line.isLine(line)) return false;
     return (line.x1 === this.x1
       && line.x2 === this.x2
       && line.y1 === this.y1
       && line.y2 === this.y2);
+  }
+
+  /**
+   * Given another Line, return true if the two lines share a point.
+   * @param {Line} line - Line to compare.
+   */
+  isJoined(line) {
+    if (!Line.isLine(line)) return false;
+    return (
+      (line.x1 === this.x1
+        && line.y1 === this.y1)
+      || (line.x1 === this.x2
+        && line.y1 === this.y2)
+      || (line.x2 === this.x1
+        && line.y2 === this.y1)
+      || (line.x2 === this.x2
+        && line.y2 === this.y2)
+    );
+  }
+
+  /**
+   * Given another line object, return true if the two lines are parallel.
+   * @param {Line} line - Line to compare.
+   */
+  isParallel(line) {
+    if (!Line.isLine(line)) return false;
+    if (Math.abs(line.slope()) === Infinity && Math.abs(this.slope()) === Infinity) {
+      return true;
+    }
+    return (
+      line.slope() === this.slope()
+    );
+  }
+
+  /**
+   * Returns the slope of a line truncated to 10 decimal places.
+   */
+  slope() {
+    const slope = Math.round((10 ** 10) * (this.y2 - this.y1) / (this.x2 - this.x1));
+    return slope / (10 ** 10);
   }
 }
