@@ -312,8 +312,10 @@ class LSandbox extends Component {
                 name="alpha"
                 onChange={this.handleChange}
                 type="number"
-                max={360}
-                min={0}
+                inputProps={{
+                  max: 360,
+                  min: 0,
+                }}
                 label="Angle"
               />
               <TextField
@@ -358,6 +360,7 @@ class LSandbox extends Component {
                           <ListItemText
                             primary={(
                               <TextField
+                                className="text-field"
                                 value={rF.str}
                                 onChange={e => this.handleReplaceFn(e, i)}
                                 type="text"

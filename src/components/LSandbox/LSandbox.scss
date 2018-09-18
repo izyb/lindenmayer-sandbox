@@ -91,8 +91,11 @@ ul {
 #main-params {
   grid-column-start: 1;
   grid-column-end: end;
-  .text-field {
-    margin: 8px;
+}
+
+.text-field {
+  input {
+    text-transform: uppercase;
   }
 }
 
