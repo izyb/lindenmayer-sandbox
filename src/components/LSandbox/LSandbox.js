@@ -11,10 +11,15 @@ import {
   Typography,
   Paper,
   Drawer,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import HelpIcon from '@material-ui/icons/Help';
 import Range from '../Range/Range';
 import githubMark from '../../GitHub-Mark.svg';
 import LCanvas from '../LCanvas/LCanvas';
@@ -43,6 +48,7 @@ class LSandbox extends Component {
       iteration: 0,
       stepLength: STEP_LENGTH,
       drawerOpen: false,
+      helpDialogOpen: false,
     };
 
     this.updateReplaceFns = this.updateReplaceFns.bind(this);
@@ -51,7 +57,8 @@ class LSandbox extends Component {
     this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.loadPreview = this.loadPreview.bind(this);
-    this.toggleDrawer = this.handleDrawer.bind(this);
+    this.handleDialog = this.handleDialog.bind(this);
+    this.handleDrawer = this.handleDrawer.bind(this);
   }
 
   /**
@@ -156,6 +163,10 @@ class LSandbox extends Component {
     this.setState({ [e.target.name]: e.target.value }, this.updateReplaceFns);
   }
 
+  handleDialog(open) {
+    return () => this.setState({ helpDialogOpen: open });
+  }
+
   /**
    * Updates specified replacement function object property based on user
    * input.
@@ -213,6 +224,7 @@ class LSandbox extends Component {
       clientHeight,
       lines,
       drawerOpen,
+      helpDialogOpen,
     } = this.state;
 
     const drawer = (
@@ -248,10 +260,25 @@ class LSandbox extends Component {
       </Drawer>
     );
 
+    const helpDialog = (
+      <Dialog
+        open={helpDialogOpen}
+        onClose={this.handleDialog(false)}
+      >
+        <DialogTitle>henlo boys</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            yes hellos is this dogS
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+    );
+
 
     return (
       <React.Fragment>
         {drawer}
+        {helpDialog}
         <div className="sandbox-wrapper">
           <div className="sandbox-panel left">
             <div
@@ -284,30 +311,46 @@ class LSandbox extends Component {
                 </Typography>
                 <Button onClick={this.handleDrawer(true)}>Examples</Button>
               </div>
-              <TextField
-                className="text-field"
-                value={alpha}
-                name="alpha"
-                onChange={this.handleChange}
-                type="number"
-                inputProps={{
-                  max: 360,
-                  min: 0,
-                }}
-                label="Angle"
-              />
-              <TextField
-                className="text-field"
-                value={initPath}
-                name="initPath"
-                onChange={this.handleChange}
-                type="text"
-                label="Initial Path"
-              />
+              <List>
+                <ListItem>
+                  <TextField
+                    className="text-field"
+                    value={alpha}
+                    name="alpha"
+                    onChange={this.handleChange}
+                    type="number"
+                    inputProps={{
+                      max: 360,
+                      min: 0,
+                    }}
+                    label="Angle"
+                    fullWidth
+                  />
+                </ListItem>
+                <ListItem>
+                  <TextField
+                    className="text-field"
+                    value={initPath}
+                    name="initPath"
+                    onChange={this.handleChange}
+                    type="text"
+                    label="Initial Path"
+                    fullWidth
+                  />
+                </ListItem>
+              </List>
             </Paper>
-            <Paper className="panel-content" id="replacement-strings">
-              <Typography variant="title">Replacement strings</Typography>
-              <div className="replacement-strings">
+            <Paper
+              className="panel-content"
+              id="replacement-strings"
+            >
+              <div className="replacement-strings-title">
+                <Typography variant="title">Replacement strings</Typography>
+                <IconButton onClick={this.handleDialog(true)}>
+                  <HelpIcon />
+                </IconButton>
+              </div>
+              <div className="replacement-strings-list">
                 <List dense>
                   {Object.keys(replaceFn).map(char => (
                     <ListItem key={char}>
