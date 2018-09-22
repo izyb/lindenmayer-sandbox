@@ -36,7 +36,7 @@ class Turtle {
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
         if (replaceFn[move] && replaceFn[move].active) {
-          array.push(...replaceFn[move].str.split(''));
+          array.push(...replaceFn[move].str.toLowerCase().split(''));
         } else {
           array.push(move);
         }

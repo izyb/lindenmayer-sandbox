@@ -38,7 +38,7 @@ class LSandbox extends Component {
       clientWidth: 0,
       clientHeight: 0,
       initPath: '',
-      replaceFn: [],
+      replaceFn: {},
       alpha: 0,
       iteration: 0,
       stepLength: STEP_LENGTH,
