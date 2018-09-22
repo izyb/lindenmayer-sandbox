@@ -101,9 +101,13 @@ ul {
 
 #param-title {
   display: flex;
+  height: 28px;
+  position: relative;
   button {
-    margin: auto;
-    margin-right: 8px;
+    position: absolute;
+    top: -4px;
+    left: auto;
+    right: 4px;
   }
 }
 
@@ -123,7 +127,23 @@ ul {
   }
 }
 
-.replacement-strings {
+.replacement-strings-title {
+  height: 28px;
+  display: flex;
+  position: relative;
+  >h2 {
+    margin: auto 0;
+  }
+  >button {
+    position: absolute;
+    top: -10px;
+    left: auto;
+    right: 4px;
+  }
+}
+
+.replacement-strings-list {
+  margin-top: 16px;
   overflow: auto;
   li {
     button {
