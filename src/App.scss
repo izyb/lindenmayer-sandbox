@@ -28,14 +28,28 @@ $banner-height: 48px;
   z-index: 1;
   overflow: hidden;
   @include shadow(2);
-  h1 {
+  .headline {
+    display: flex;
     margin: auto 8px;
     white-space: nowrap;
-    color: $theme-white;
+    >h1 {
+      text-transform: capitalize;
+      color: $theme-white;
+    }
+    #lindenmayer {
+      transition: all 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+      max-width: 14px;
+      overflow: hidden;
+    }
+    &:hover {
+      #lindenmayer {
+        max-width: 100%;
+      }
+    }
   }
 }
 
-.main-content{
+.main-content {
   flex-shrink: 0;
   height: calc(100vh - #{$banner-height});
   display: flex;

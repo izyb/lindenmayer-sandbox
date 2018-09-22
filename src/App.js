@@ -16,7 +16,10 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="App">
           <div className="banner">
-            <Typography variant="headline">lindenmayer sandbox</Typography>
+            <div className="headline">
+              <Typography variant="headline" id="lindenmayer">lindenmayer&nbsp;</Typography>
+              <Typography variant="headline" id="sandbox">sandbox</Typography>
+            </div>
           </div>
           <div className="main-content">
             <LSandbox />

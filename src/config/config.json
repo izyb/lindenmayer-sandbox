@@ -9,7 +9,6 @@
   ],
   "MAX_ITERATIONS": 12,
   "SCALE_FACTOR": 1.1,
-  "ALPHA": 90,
   "STEP_LENGTH": 50,
   "PREVIEWS": [
     {
