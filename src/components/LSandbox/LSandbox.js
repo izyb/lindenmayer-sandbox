@@ -25,7 +25,6 @@ const {
   RESERVED_CHARS,
   MAX_ITERATIONS,
   STEP_LENGTH,
-  ALPHA,
   PREVIEWS,
 } = config;
 
@@ -38,38 +37,9 @@ class LSandbox extends Component {
     this.state = {
       clientWidth: 0,
       clientHeight: 0,
-      initPath: 'fx',
-      replaceFn: [
-        {
-          char: 'f',
-          str: 'f',
-          mandatory: true,
-          active: true,
-          drawing: true,
-        },
-        {
-          char: 's',
-          str: 's',
-          mandatory: false,
-          active: false,
-          drawing: false,
-        },
-        {
-          char: 'x',
-          str: 'x+yf+',
-          mandatory: false,
-          active: true,
-          drawing: false,
-        },
-        {
-          char: 'y',
-          str: '-fx-y',
-          mandatory: false,
-          active: true,
-          drawing: false,
-        },
-      ],
-      alpha: ALPHA,
+      initPath: '',
+      replaceFn: [],
+      alpha: 0,
       iteration: 0,
       stepLength: STEP_LENGTH,
       drawerOpen: false,
@@ -92,7 +62,9 @@ class LSandbox extends Component {
     window.addEventListener('resize', this.handleResize);
     const { clientWidth, clientHeight } = this.wrapper;
     const turtle = new Turtle(clientWidth, clientHeight);
+    this.loadPreview(PREVIEWS[0]);
     this.setState({
+      iteration: 0,
       clientWidth,
       clientHeight,
       turtle,
@@ -130,9 +102,9 @@ class LSandbox extends Component {
       alpha,
       stepLength,
     } = this.state;
-    const chars = replaceFn.map(rF => rF.char.toLowerCase());
+    const chars = Object.keys(replaceFn);
     const initChars = initPath.toLowerCase().split('');
-    replaceFn.forEach((rF) => {
+    Object.values(replaceFn).forEach((rF) => {
       if (rF.active) {
         initChars.push(...rF.str.toLowerCase().split(''));
       }
@@ -144,13 +116,12 @@ class LSandbox extends Component {
         && !chars.includes(char)
         && !RESERVED_CHARS.map(c => c.toLowerCase()).includes(char)
       ) {
-        replaceFn.push({
-          char,
+        replaceFn[char] = {
           str: char,
           mandatory: false,
           active: false,
           drawing: false,
-        });
+        };
       }
     });
     chars.forEach((character) => {
@@ -159,11 +130,9 @@ class LSandbox extends Component {
         !initChars.map(c => c.toLowerCase()).includes(char)
         && !RESERVED_CHARS.map(c => c.toLowerCase()).includes(char)
       ) {
-        const j = replaceFn.findIndex(rF => rF.char.toLowerCase() === char);
-        replaceFn.splice(j, 1);
+        delete replaceFn[char];
       }
     });
-
     this.setState({
       lines: turtle.parse(
         initPath,
@@ -187,22 +156,22 @@ class LSandbox extends Component {
    * Updates specified replacement function object property based on user
    * input.
    * @param {Event} e - User input event.
-   * @param {number} i - Replacement string list index.
+   * @param {string} char - Replacement string list index.
    */
-  handleReplaceFn(e, i) {
+  handleReplaceFn(e, char) {
     const { replaceFn } = this.state;
-    replaceFn[i][e.target.name] = e.target.value;
+    replaceFn[char][e.target.name] = e.target.value;
     this.setState({ replaceFn }, this.updateReplaceFns);
   }
 
   /**
    * Toggles a boolean property of specified replacement function.
    * @param {Event} e - User input event.
-   * @param {number} i - Replacement string list index
+   * @param {string} char - Replacement string list index
    */
-  handleReplaceFnToggle(e, i) {
+  handleReplaceFnToggle(e, char) {
     const { replaceFn } = this.state;
-    replaceFn[i][e.target.name] = !replaceFn[i][e.target.name] || replaceFn[i].mandatory;
+    replaceFn[char][e.target.name] = !replaceFn[char][e.target.name] || replaceFn[char].mandatory;
     this.setState({ replaceFn }, this.updateReplaceFns);
   }
 
@@ -331,25 +300,25 @@ class LSandbox extends Component {
               <Typography variant="title">Replacement strings</Typography>
               <div className="replacement-strings">
                 <List dense>
-                  {replaceFn.map((rF, i) => (
-                    <ListItem key={rF.char}>
+                  {Object.keys(replaceFn).map(char => (
+                    <ListItem key={char}>
                       <Button
                         variant="fab"
                         mini
-                        onClick={e => this.handleReplaceFnToggle(e, i)}
+                        onClick={e => this.handleReplaceFnToggle(e, char)}
                         name="drawing"
-                        color={rF.drawing ? 'primary' : 'default'}
-                        disabled={!rF.active}
+                        color={replaceFn[char].drawing ? 'primary' : 'default'}
+                        disabled={!replaceFn[char].active}
                       >
-                        {rF.char}
+                        {char}
                       </Button>
-                      {rF.active ? (
+                      {replaceFn[char].active ? (
                         <React.Fragment>
-                          {!rF.mandatory
+                          {!replaceFn[char].mandatory
                             && (
                               <ListItemSecondaryAction>
                                 <IconButton
-                                  onClick={e => this.handleReplaceFnToggle(e, i)}
+                                  onClick={e => this.handleReplaceFnToggle(e, char)}
                                   name="active"
                                 >
                                   <DeleteIcon />
@@ -361,8 +330,8 @@ class LSandbox extends Component {
                             primary={(
                               <TextField
                                 className="text-field"
-                                value={rF.str}
-                                onChange={e => this.handleReplaceFn(e, i)}
+                                value={replaceFn[char].str}
+                                onChange={e => this.handleReplaceFn(e, char)}
                                 type="text"
                                 name="str"
                                 fullWidth
@@ -376,7 +345,7 @@ class LSandbox extends Component {
                             <ListItemText />
                             <ListItemSecondaryAction>
                               <IconButton
-                                onClick={e => this.handleReplaceFnToggle(e, i)}
+                                onClick={e => this.handleReplaceFnToggle(e, char)}
                                 name="active"
                               >
                                 <AddIcon />

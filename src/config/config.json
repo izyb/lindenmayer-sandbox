@@ -1,156 +1,142 @@
 {
-    "RESERVED_CHARS": [
-        "f",
-        "s",
-        "+",
-        "-",
-        "[",
-        "]"
-    ],
-    "MAX_ITERATIONS": 12,
-    "SCALE_FACTOR": 1.1,
-    "ALPHA": 90,
-    "STEP_LENGTH": 50,
-    "PREVIEWS": [
-        {
-            "path": "./dragon_curve.png",
-            "initPath": "fx",
-            "replaceFn": [
-              {
-                "char": "f",
-                "str": "f",
-                "mandatory": true,
-                "active": true,
-                "drawing": true
-              },
-              {
-                "char": "s",
-                "str": "s",
-                "mandatory": false,
-                "active": false,
-                "drawing": false
-              },
-              {
-                "char": "x",
-                "str": "x+yf+",
-                "mandatory": false,
-                "active": true,
-                "drawing": false
-              },
-              {
-                "char": "y",
-                "str": "-fx-y",
-                "mandatory": false,
-                "active": true,
-                "drawing": false
-              }
-            ],
-            "alpha": 90
+  "RESERVED_CHARS": [
+    "f",
+    "s",
+    "+",
+    "-",
+    "[",
+    "]"
+  ],
+  "MAX_ITERATIONS": 12,
+  "SCALE_FACTOR": 1.1,
+  "ALPHA": 90,
+  "STEP_LENGTH": 50,
+  "PREVIEWS": [
+    {
+      "path": "./dragon_curve.png",
+      "initPath": "fx",
+      "replaceFn": {
+        "f": {
+          "str": "f",
+          "mandatory": true,
+          "active": true,
+          "drawing": true
         },
-        {
-            "path": "./creepy_snowflake.png",
-            "initPath": "[+f]--[+f]--[+f]--[+f]--[+f]--[+f]",
-            "replaceFn": [
-              {
-                "char": "f",
-                "str": "ff[+f][-f]",
-                "mandatory": true,
-                "active": true,
-                "drawing": true
-              },
-              {
-                "char": "s",
-                "str": "s",
-                "mandatory": false,
-                "active": false,
-                "drawing": false
-              }
-            ],
-            "alpha": 30
+        "s": {
+          "str": "s",
+          "mandatory": false,
+          "active": false,
+          "drawing": false
         },
-        {
-            "path": "./fractal_plant.png",
-            "initPath": "----x",
-            "replaceFn": [
-              {
-                "char": "f",
-                "str": "ff",
-                "mandatory": true,
-                "active": true,
-                "drawing": true
-              },
-              {
-                "char": "s",
-                "str": "s",
-                "mandatory": false,
-                "active": false,
-                "drawing": false
-              },
-              {
-                "char": "x",
-                "str": "f+[[x]-x]-f[-fx]+x",
-                "mandatory": false,
-                "active": true,
-                "drawing": false
-              }
-            ],
-            "alpha": 25
+        "x": {
+          "str": "x+yf+",
+          "mandatory": false,
+          "active": true,
+          "drawing": false
         },
-        {
-            "path": "./fractal_tree.png",
-            "initPath": "--f",
-            "replaceFn": [
-              {
-                "char": "f",
-                "str": "o[+f]-f",
-                "mandatory": true,
-                "active": true,
-                "drawing": true
-              },
-              {
-                "char": "s",
-                "str": "s",
-                "mandatory": false,
-                "active": false,
-                "drawing": false
-              },
-              {
-                "char": "o",
-                "str": "oo",
-                "mandatory": false,
-                "active": true,
-                "drawing": true
-              }
-            ],
-            "alpha": 45
-        },
-        {
-            "path": "./sierpinski_triangle.png",
-            "initPath": "f-g-g",
-            "replaceFn": [
-              {
-                "char": "f",
-                "str": "f-g+f+g-f",
-                "mandatory": true,
-                "active": true,
-                "drawing": true
-              },
-              {
-                "char": "s",
-                "str": "s",
-                "mandatory": false,
-                "active": false,
-                "drawing": false
-              },
-              {
-                "char": "g",
-                "str": "gg",
-                "mandatory": false,
-                "active": true,
-                "drawing": true
-              }
-            ],
-            "alpha": 120
+        "y": {
+          "str": "-fx-y",
+          "mandatory": false,
+          "active": true,
+          "drawing": false
         }
-    ]
+      },
+      "alpha": 90
+    },
+    {
+      "path": "./creepy_snowflake.png",
+      "initPath": "[+f]--[+f]--[+f]--[+f]--[+f]--[+f]",
+      "replaceFn": {
+        "f": {
+          "str": "ff[+f][-f]",
+          "mandatory": true,
+          "active": true,
+          "drawing": true
+        },
+        "s": {
+          "str": "s",
+          "mandatory": false,
+          "active": false,
+          "drawing": false
+        }
+      },
+      "alpha": 30
+    },
+    {
+      "path": "./fractal_plant.png",
+      "initPath": "----x",
+      "replaceFn": {
+        "f": {
+          "str": "ff",
+          "mandatory": true,
+          "active": true,
+          "drawing": true
+        },
+        "s": {
+          "str": "s",
+          "mandatory": false,
+          "active": false,
+          "drawing": false
+        },
+        "x": {
+          "str": "f+[[x]-x]-f[-fx]+x",
+          "mandatory": false,
+          "active": true,
+          "drawing": false
+        }
+      },
+      "alpha": 25
+    },
+    {
+      "path": "./fractal_tree.png",
+      "initPath": "--f",
+      "replaceFn": {
+        "f": {
+          "str": "o[+f]-f",
+          "mandatory": true,
+          "active": true,
+          "drawing": true
+        },
+        "s": {
+          "str": "s",
+          "mandatory": false,
+          "active": false,
+          "drawing": false
+        },
+        "o": {
+          "char": "o",
+          "str": "oo",
+          "mandatory": false,
+          "active": true,
+          "drawing": true
+        }
+      },
+      "alpha": 45
+    },
+    {
+      "path": "./sierpinski_triangle.png",
+      "initPath": "f-g-g",
+      "replaceFn": {
+        "f": {
+          "str": "f-g+f+g-f",
+          "mandatory": true,
+          "active": true,
+          "drawing": true
+        },
+        "s": {
+          "str": "s",
+          "mandatory": false,
+          "active": false,
+          "drawing": false
+        },
+        "g": {
+          "str": "gg",
+          "mandatory": false,
+          "active": true,
+          "drawing": true
+        }
+      },
+      "alpha": 120
+    }
+  ]
 }

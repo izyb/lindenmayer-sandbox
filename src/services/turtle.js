@@ -35,19 +35,14 @@ class Turtle {
     let start = performance.now();
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
-        if (!replaceFn.some((rF) => {
-          if (move === rF.char && rF.active) {
-            array.push(...rF.str.split(''));
-          }
-          return move === rF.char && rF.active;
-        })) {
+        if (replaceFn[move] && replaceFn[move].active) {
+          array.push(...replaceFn[move].str.split(''));
+        } else {
           array.push(move);
         }
         return array;
       }, []);
     }
-    console.log(`iterations built: ${performance.now() - start}ms`);
-    start = performance.now();
     for (let j = 0; j < moves.length; j += 1) {
       switch (moves[j]) {
         case 'f':
