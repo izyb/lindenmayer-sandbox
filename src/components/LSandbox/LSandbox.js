@@ -51,7 +51,7 @@ class LSandbox extends Component {
     this.handleReplaceFnToggle = this.handleReplaceFnToggle.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.loadPreview = this.loadPreview.bind(this);
-    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.toggleDrawer = this.handleDrawer.bind(this);
   }
 
   /**
@@ -79,8 +79,12 @@ class LSandbox extends Component {
     window.removeEventListener('wheel', this.handleScroll);
   }
 
+  /**
+   * Loads a preset into the application state.
+   * @param {Object} preview - Preview object to be selected.
+   */
   loadPreview(preview) {
-    this.toggleDrawer();
+    this.handleDrawer(false);
     const { initPath, replaceFn, alpha } = preview;
     this.setState({
       initPath,
@@ -189,9 +193,14 @@ class LSandbox extends Component {
     }, this.updateReplaceFns);
   }
 
-  toggleDrawer() {
-    const { drawerOpen } = this.state;
-    this.setState({ drawerOpen: !drawerOpen });
+  /**
+   * Sets the example drawer to be open or closed.
+   * @param {boolean} open - State to be assigned to example drawer.
+   */
+  handleDrawer(open) {
+    return () => {
+      this.setState({ drawerOpen: open });
+    };
   }
 
   render() {
@@ -209,7 +218,7 @@ class LSandbox extends Component {
     const drawer = (
       <Drawer
         open={drawerOpen}
-        onClose={this.toggleDrawer}
+        onClose={this.handleDrawer(false)}
         variant="persistent"
         anchor="right"
         SlideProps={{
@@ -219,7 +228,7 @@ class LSandbox extends Component {
         <div className="previews-content">
           <div className="previews-headline">
             <Typography variant="subheading">Examples</Typography>
-            <IconButton onClick={this.toggleDrawer}>
+            <IconButton onClick={this.handleDrawer(false)}>
               <ChevronRightIcon />
             </IconButton>
           </div>
@@ -273,7 +282,7 @@ class LSandbox extends Component {
                 <Typography variant="title">
                   Main Parameters
                 </Typography>
-                <Button onClick={this.toggleDrawer}>Examples</Button>
+                <Button onClick={this.handleDrawer(true)}>Examples</Button>
               </div>
               <TextField
                 className="text-field"
