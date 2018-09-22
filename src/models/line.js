@@ -1,3 +1,5 @@
+const ROUNDING_DECPLACES = 8;
+
 /**
  * Line object class.
  */
@@ -16,10 +18,10 @@ export default class Line {
   }
 
   constructor(x1, y1, x2, y2) {
-    this.x1 = x1;
-    this.x2 = x2;
-    this.y1 = y1;
-    this.y2 = y2;
+    this.x1 = Line.approximate(x1);
+    this.x2 = Line.approximate(x2);
+    this.y1 = Line.approximate(y1);
+    this.y2 = Line.approximate(y2);
   }
 
   /**
@@ -49,10 +51,17 @@ export default class Line {
    */
   isEq(line) {
     if (!Line.isLine(line)) return false;
-    return (line.x1 === this.x1
+    return (
+      line.x1 === this.x1
       && line.x2 === this.x2
       && line.y1 === this.y1
-      && line.y2 === this.y2);
+      && line.y2 === this.y2)
+      || (
+        line.x1 === this.x2
+        && line.x2 === this.x1
+        && line.y1 === this.y2
+        && line.y2 === this.y1
+      );
   }
 
   /**
@@ -91,7 +100,10 @@ export default class Line {
    * Returns the slope of a line truncated to 10 decimal places.
    */
   slope() {
-    const slope = Math.round((10 ** 10) * (this.y2 - this.y1) / (this.x2 - this.x1));
-    return slope / (10 ** 10);
+    return Line.approximate((this.y2 - this.y1) / (this.x2 - this.x1));
+  }
+
+  static approximate(value) {
+    return Math.round((10 ** ROUNDING_DECPLACES) * value) / (10 ** ROUNDING_DECPLACES);
   }
 }
