@@ -1,6 +1,7 @@
 import Line from '../models/line';
 
 const DEFAULT_PADDING = 16;
+const MAX_LINES_OPTIMIZE = 50000;
 
 /**
  * Class for parsing turtle strings into geographic coordinates of the turtle's
@@ -32,7 +33,6 @@ class Turtle {
     const lines = [];
     const curr = { x: 0, y: 0 };
     const stack = [];
-    let start = performance.now();
     for (let i = 0; i < iteration; i += 1) {
       moves = moves.reduce((array, move) => {
         if (replaceFn[move] && replaceFn[move].active) {
@@ -49,16 +49,14 @@ class Turtle {
           const fLine = new Line(
             curr.x,
             curr.y,
-            curr.x += Math.round(stepLength * Math.cos(theta)),
-            curr.y += Math.round(stepLength * Math.sin(theta)),
+            curr.x += stepLength * Math.cos(theta),
+            curr.y += stepLength * Math.sin(theta),
           );
-          if (!lines.find(l => l.isEq(fLine))) {
-            lines.push(fLine);
-          }
+          lines.push(fLine);
           break;
         case 's':
-          curr.x += Math.round(stepLength * Math.cos(theta));
-          curr.y += Math.round(stepLength * Math.sin(theta));
+          curr.x += stepLength * Math.cos(theta);
+          curr.y += stepLength * Math.sin(theta);
           break;
         case '+':
           theta += Turtle.toRadians(alpha);
@@ -78,33 +76,29 @@ class Turtle {
           }
           break;
         default:
-          const char = replaceFn.find(rF => rF.char === moves[j]);
+          const char = replaceFn[moves[j]];
 
           if (char && char.drawing) {
             const drawLine = new Line(
               curr.x,
               curr.y,
-              curr.x += Math.round(stepLength * Math.cos(theta)),
-              curr.y += Math.round(stepLength * Math.sin(theta)),
+              curr.x += stepLength * Math.cos(theta),
+              curr.y += stepLength * Math.sin(theta),
             );
-            if (!lines.find(l => l.isEq(drawLine))) {
-              lines.push(drawLine);
-            }
+            lines.push(drawLine);
           }
           break;
       }
     }
-    console.log(`lines built: ${performance.now() - start}ms`);
     return this.normalize(lines);
   }
 
   /**
    * Given a collection of lines, normalize to fit dimensions set in
    * constructor.
-   * @param {Array} lines - collection of lines.
+   * @param {Array<Line>} lines - collection of lines.
    */
   normalize(lines) {
-    const start = performance.now();
     if (lines.length === 0) return lines;
     const getMin = line => [
       Math.min(...line.getX()),
@@ -143,7 +137,6 @@ class Turtle {
       (l.x2 - min[0]) / scale + xPadding,
       (l.y2 - min[1]) / scale + yPadding,
     ));
-    console.log(`normalize: ${performance.now() - start}ms`);
     return Turtle.optimize(retLines);
   }
 
@@ -153,7 +146,9 @@ class Turtle {
    * @param {Array<Line>} lines - Normalized array of Line objects.
    */
   static optimize(lines) {
-    const start = performance.now();
+    if (lines.length > MAX_LINES_OPTIMIZE) {
+      return lines;
+    }
     const newLines = [];
     for (let i = 0; i < lines.length; i += 1) {
       const line = lines[i];
@@ -162,19 +157,22 @@ class Turtle {
       let j = i + 1;
       while (j < lines.length) {
         const otherLine = lines[j];
-        if (otherLine.isJoined(newLine) && otherLine.isParallel(newLine)) {
-          const x = [...otherLine.getX(), ...newLine.getX()];
-          const y = [...otherLine.getY(), ...newLine.getY()];
+        if (otherLine.isEq(newLine)) {
+          lines.splice(j, 1);
+          j += 1;
+        } else if (otherLine.isJoined(newLine) && otherLine.isParallel(newLine)) {
+          const minX = Math.min(...otherLine.getX(), ...newLine.getX());
+          const minY = Math.min(...otherLine.getY(), ...newLine.getY());
+          const maxX = Math.max(...otherLine.getX(), ...newLine.getX());
+          const maxY = Math.max(...otherLine.getY(), ...newLine.getY());
+          newLine.x1 = minX;
+          newLine.x2 = maxX;
           if (slope > 0) {
-            newLine.x1 = Math.min(...x);
-            newLine.x2 = Math.max(...x);
-            newLine.y1 = Math.min(...y);
-            newLine.y2 = Math.max(...y);
+            newLine.y1 = minY;
+            newLine.y2 = maxY;
           } else {
-            newLine.x1 = Math.min(...x);
-            newLine.x2 = Math.max(...x);
-            newLine.y1 = Math.max(...y);
-            newLine.y2 = Math.min(...y);
+            newLine.y1 = maxY;
+            newLine.y2 = minY;
           }
           lines.splice(j, 1);
           j = i + 1;
@@ -184,8 +182,6 @@ class Turtle {
       }
       newLines.push(newLine);
     }
-    console.log(`optimized: ${performance.now() - start}ms`);
-    console.log();
     return newLines;
   }
 }
