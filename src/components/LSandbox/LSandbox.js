@@ -84,8 +84,9 @@ class LSandbox extends Component {
    * @param {Object} preview - Preview object to be selected.
    */
   loadPreview(preview) {
-    this.handleDrawer(false);
-    const { initPath, replaceFn, alpha } = preview;
+    this.handleDrawer(false)();
+    const { initPath, alpha } = preview;
+    const replaceFn = Object.assign({}, preview.replaceFn);
     this.setState({
       initPath,
       replaceFn,
